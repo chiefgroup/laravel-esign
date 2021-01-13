@@ -34,6 +34,7 @@ abstract class AbstractAPI
     protected $accessToken;
 
     const JSON = 'json';
+    const SUCCESS_STATUS = 200;
 
     /**
      * @var int
@@ -131,6 +132,28 @@ abstract class AbstractAPI
         $this->checkAndThrow($contents);
 
         return (new Collection($contents))->get('data');
+    }
+
+    /**
+     * Put upload File
+     * @param string $uploadUrls
+     * @param string $fileContent
+     * @param array $headers
+     * @return int|mixed
+     */
+    public function httpPut($uploadUrls, $fileContent, $headers)
+    {
+        $http = $this->getHttp();
+
+        $status = $http->sendHttpPut($uploadUrls, $fileContent, $headers);
+
+        if ($status != self::SUCCESS_STATUS) {
+            Log::debug('Request Upload File headers:'.json_encode($headers));
+            Log::debug('Request Upload File url:'.$uploadUrls);
+            throw new HttpException('文件上传失败！', 10001);
+        }
+
+        return $status;
     }
 
     /**

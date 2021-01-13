@@ -34,13 +34,12 @@ class File extends AbstractAPI
      * @param  bool  $convert2Pdf  是否转换成pdf文档，默认false
      * @param  string  $fileName  文件名称（必须带上文件扩展名，不然会导致后续发起流程校验过不去 示例：合同.pdf ）
      * @param  int  $fileSize  文件大小，单位byte
-     * @param  null  $accountId  所属账号id，即个人账号id或机构账号id
      *
      * @return Collection|null
      *
      * @throws HttpException
      */
-    public function getUploadFileUrl($contentMd5, $fileName, $fileSize, $contentType = 'application/pdf', $convert2Pdf = false, $accountId = null)
+    public function getUploadFileUrl($contentMd5, $fileName, $fileSize, $contentType = 'application/pdf', $convert2Pdf = false)
     {
         $params = [
             'contentMd5'  => $contentMd5,
@@ -48,10 +47,32 @@ class File extends AbstractAPI
             'convert2Pdf' => $convert2Pdf,
             'fileName'    => $fileName,
             'fileSize'    => $fileSize,
-            'accountId'   => $accountId,
         ];
 
         return $this->parseJSON('json', [self::CREATE_SIGN_DOCUMENT, $params]);
+    }
+
+    /**
+     * 通过上传方式创建文件 && 上传文件
+     *
+     * @param  string  $contentMd5  先计算文件md5值，在对该md5值进行base64编码
+     * @param  string  $contentType  目标文件的MIME类型，支持：（1）application/octet-stream（2）application/pdf
+     * @param  bool  $convert2Pdf  是否转换成pdf文档，默认false
+     * @param  string  $fileName  文件名称（必须带上文件扩展名，不然会导致后续发起流程校验过不去 示例：合同.pdf ）
+     * @param  int  $fileSize  文件大小，单位byte
+     *
+     * @return Collection|null
+     * @throws HttpException
+     */
+    public function getUploadFile($filePath, $fileName, $fileSize, $contentType = 'application/pdf', $convert2Pdf = false)
+    {
+        $contentMd5 = $this->_getContentBase64Md5($filePath);
+
+        $result = $this->getUploadFileUrl($contentMd5, $fileName, $fileSize, $contentType = 'application/pdf', $convert2Pdf);
+
+        $this->_upLoadFile($result['uploadUrl'], $filePath, $contentMd5, $contentType);
+
+        return $result;
     }
 
     /**
@@ -66,7 +87,7 @@ class File extends AbstractAPI
      *
      * @throws HttpException
      */
-    public function createByUploadUrl($contentMd5, $contentType, $fileName, $convert2Pdf = false)
+    public function createByUploadUrl($contentMd5, $fileName, $contentType = 'application/pdf', $convert2Pdf = false)
     {
         $params = [
             'contentMd5'  => $contentMd5,
@@ -76,6 +97,62 @@ class File extends AbstractAPI
         ];
 
         return $this->parseJSON('json', [self::CREATE_UPLOAD_URL, $params]);
+    }
+
+    /**
+     * 通过上传方式创建模板 && 上传文件
+     * @param  string  $contentMd5
+     * @param  string  $fileName
+     * @param  string  $contentType
+     * @param  bool  $convert2Pdf
+     * @return Collection|null
+     * @throws HttpException
+     */
+    public function createByUploadFile($filePath, $fileName, $contentType = 'application/pdf', $convert2Pdf = false)
+    {
+        $contentMd5 = $this->_getContentBase64Md5($filePath);
+
+        $result = $this->createByUploadUrl($contentMd5, $fileName, $contentType = 'application/pdf', $convert2Pdf);
+
+        $this->_upLoadFile($result['uploadUrl'], $filePath, $contentMd5, $contentType);
+
+        return $result;
+    }
+
+    /**
+     * 上传文件
+     * @param  string  $uploadUrls
+     * @param  string  $filePath
+     * @param  string  $contentMd5
+     * @return mixed
+     */
+    private function _upLoadFile($uploadUrls, $filePath, $contentMd5, $contentType = 'application/pdf')
+    {
+        $fileContent = file_get_contents($filePath);
+
+        $headers = [
+            'Content-Type:'.$contentType,
+            'Content-Md5:'.$contentMd5
+        ];
+
+        $this->httpPut($uploadUrls, $fileContent, $headers);
+    }
+
+    /**
+     *  获取文件的Content-MD5
+     *  原理：
+     *  1.先计算MD5加密的二进制数组（128位）
+     *  2.再对这个二进制进行base64编码（而不是对32位字符串编码）
+     *
+     * @param $filePath
+     * @return string
+     */
+    private function _getContentBase64Md5($filePath)
+    {
+        //获取文件MD5的128位二进制数组
+        $md5file = md5_file($filePath, true);
+        //计算文件的Content-MD5
+        return base64_encode($md5file);
     }
 
     /**

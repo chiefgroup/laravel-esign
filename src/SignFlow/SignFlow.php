@@ -27,6 +27,7 @@ class SignFlow extends AbstractAPI
     const EXECUTE_URL = '/v1/signflows/%s/executeUrl';                          // 获取签署地址
     const SIGN_PROCESS_ARCHIVE = '/v1/signflows/%s/archive';                    // 签署流程归档
     const SIGN_PROCESS_DOCUMENT = '/v1/signflows/%s/documents';                 // 流程文档下载
+    const SIGN_REVOKE = '/v1/signflows/%s/revoke';                              // 签署流程撤销
 
     /**
      * 一步发起签署.
@@ -193,7 +194,7 @@ class SignFlow extends AbstractAPI
      *
      * @throws HttpException
      */
-    public function getExecuteUrl($flowId, $accountId, $orgId = null, $urlType = 0, $appScheme = null)
+    public function getExecuteUrl($flowId, $accountId, $urlType = 0, $orgId = 0, $appScheme = null)
     {
         $url = sprintf(self::EXECUTE_URL, $flowId);
         $params = [
@@ -236,5 +237,21 @@ class SignFlow extends AbstractAPI
         $url = sprintf(self::SIGN_PROCESS_DOCUMENT, $flowId);
 
         return $this->parseJSON('get', [$url]);
+    }
+
+    /**
+     * 签署流程撤销.
+     *
+     * @param  string  $flowId  流程id
+     *
+     * @return Collection|null
+     *
+     * @throws HttpException
+     */
+    public function revoke($flowId)
+    {
+        $url = sprintf(self::SIGN_REVOKE, $flowId);
+
+        return $this->parseJSON('put', [$url]);
     }
 }

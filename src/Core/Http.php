@@ -135,7 +135,13 @@ class Http
     {
         is_array($options) && $options = json_encode($options, $encodeOption);
 
-        return $this->request($url, 'POST', ['query' => $queries, 'body' => $options, 'headers' => ['content-type' => 'application/json']]);
+        $data = ['body' => $options, 'headers' => ['content-type' => 'application/json']];
+
+        if (!empty($queries)) {
+            $data['query'] = $queries;
+        }
+
+        return $this->request($url, 'POST', $data);
     }
 
     /**
@@ -290,5 +296,42 @@ class Http
         }
 
         return $stack;
+    }
+
+    /**
+     * upload File
+     *
+     * @param string $uploadUrls
+     * @param array $headers
+     * @param string $fileContent
+     * @return int|mixed
+     */
+    public function sendHttpPut($uploadUrls, $fileContent, $headers)
+    {
+        $status = '';
+        $curl_handle = curl_init();
+        curl_setopt($curl_handle, CURLOPT_URL, $uploadUrls);
+        curl_setopt($curl_handle, CURLOPT_FILETIME, true);
+        curl_setopt($curl_handle, CURLOPT_FRESH_CONNECT, false);
+        curl_setopt($curl_handle, CURLOPT_HEADER, true); // 输出HTTP头 true
+        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl_handle, CURLOPT_TIMEOUT, 5184000);
+        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 120);
+        curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl_handle, CURLOPT_SSL_VERIFYHOST, false);
+
+        curl_setopt($curl_handle, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, 'PUT');
+
+        curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $fileContent);
+        $result = curl_exec($curl_handle);
+        $status = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
+
+        if ($result === false) {
+            $status = curl_errno($curl_handle);
+            $result = 'put file to oss - curl error :'.curl_error($curl_handle);
+        }
+        curl_close($curl_handle);
+        return $status;
     }
 }
