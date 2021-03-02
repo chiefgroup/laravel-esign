@@ -53,7 +53,7 @@ class AccessToken
 
         if ($forceRefresh || empty($cached)) {
             $token = $this->getTokenFromServer();
-            $this->getCache()->save($cacheKey, $token['data'][$this->tokenJsonKey], 60 * 100);
+            $this->getCache()->save($cacheKey, $token['data'][$this->tokenJsonKey], 60 * 5);
 
             return $token['data'][$this->tokenJsonKey];
         }
