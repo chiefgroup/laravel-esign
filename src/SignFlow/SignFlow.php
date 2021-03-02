@@ -28,6 +28,7 @@ class SignFlow extends AbstractAPI
     const SIGN_PROCESS_ARCHIVE = '/v1/signflows/%s/archive';                    // 签署流程归档
     const SIGN_PROCESS_DOCUMENT = '/v1/signflows/%s/documents';                 // 流程文档下载
     const SIGN_REVOKE = '/v1/signflows/%s/revoke';                              // 签署流程撤销
+    const SIGN_PROCESS_STATUS = '/v1/signflows/%s';                             // 签署流程状态查询
 
     /**
      * 一步发起签署.
@@ -253,5 +254,19 @@ class SignFlow extends AbstractAPI
         $url = sprintf(self::SIGN_REVOKE, $flowId);
 
         return $this->parseJSON('put', [$url]);
+    }
+
+    /**
+     * 签署流程结果查询
+     *
+     * @param  string  $flowId  流程id
+     * @return Collection|null
+     * @throws HttpException
+     */
+    public function getSignFlowStatus($flowId)
+    {
+        $url = sprintf(self::SIGN_PROCESS_STATUS, $flowId);
+
+        return $this->parseJSON('get', [$url]);
     }
 }
