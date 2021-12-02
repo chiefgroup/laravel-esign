@@ -99,6 +99,6 @@ class Identity extends AbstractAPI
 
         $params = ['authcode' => $authcode];
 
-        return $this->parseJSON('put', [$url, $params]);
+        return $this->parseJSON('json', [$url, $params, 256, [], 'put']);
     }
 }
