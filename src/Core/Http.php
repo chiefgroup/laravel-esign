@@ -131,7 +131,7 @@ class Http
      *
      * @throws HttpException
      */
-    public function json($url, $options = [], $encodeOption = JSON_UNESCAPED_UNICODE, $queries = [])
+    public function json($url, $options = [], $encodeOption = JSON_UNESCAPED_UNICODE, $queries = [], $method = 'POST')
     {
         is_array($options) && $options = json_encode($options, $encodeOption);
 
@@ -141,7 +141,7 @@ class Http
             $data['query'] = $queries;
         }
 
-        return $this->request($url, 'POST', $data);
+        return $this->request($url, $method, $data);
     }
 
     /**
