@@ -9,3 +9,8 @@ jobs:
     with:
       versions: "[\"8.0\", \"8.1\"]"
       stability: "[\"prefer-stable\"]"
+      env: |
+        DEBUG: true
+        ESIGN_SERVER: https://openapi.esign.cn
+        ESIGN_APPID: ${{ secrets.ESIGN_APPID }}
+        ESIGN_APPKEY: ${{ secrets.ESIGN_APPKEY }}
