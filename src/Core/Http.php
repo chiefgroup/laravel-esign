@@ -16,7 +16,7 @@ class Http
      * Used to identify handler defined by client code
      * Maybe useful in the future.
      */
-    const USER_DEFINED_HANDLER = 'userDefined';
+    public const USER_DEFINED_HANDLER = 'userDefined';
 
     /**
      * Http client.
@@ -53,7 +53,7 @@ class Http
      *
      * @param  array  $defaults
      */
-    public static function setDefaultOptions($defaults = [])
+    public static function setDefaultOptions(array $defaults = []): void
     {
         self::$defaults = array_merge(self::$globals, $defaults);
     }
@@ -63,7 +63,7 @@ class Http
      *
      * @return array
      */
-    public static function getDefaultOptions()
+    public static function getDefaultOptions(): array
     {
         return self::$defaults;
     }
@@ -71,13 +71,9 @@ class Http
     /**
      * GET request.
      *
-     * @param  string  $url
-     *
-     * @return ResponseInterface
-     *
      * @throws HttpException
      */
-    public function get($url, array $options = [])
+    public function get(string $url, array $options = []): ResponseInterface
     {
         return $this->request($url, 'GET', ['query' => $options]);
     }
@@ -85,14 +81,9 @@ class Http
     /**
      * POST request.
      *
-     * @param  string  $url
-     * @param  array|string  $options
-     *
-     * @return ResponseInterface
-     *
      * @throws HttpException
      */
-    public function post($url, $options = [])
+    public function post(string $url, array|string $options = []): ResponseInterface
     {
         $key = is_array($options) ? 'form_params' : 'body';
 
@@ -116,16 +107,11 @@ class Http
     /**
      * JSON request.
      *
-     * @param  string  $url
-     * @param  string|array  $options
      * @param  array  $queries
-     * @param  int  $encodeOption
-     *
-     * @return ResponseInterface
      *
      * @throws HttpException
      */
-    public function json($url, $options = [], $encodeOption = JSON_UNESCAPED_UNICODE, $queries = [], $method = 'POST')
+    public function json(string $url, string|array $options = [], int $encodeOption = JSON_UNESCAPED_UNICODE, array $queries = [], $method = 'POST'): ResponseInterface
     {
         is_array($options) && $options = json_encode($options, $encodeOption);
 
@@ -141,19 +127,15 @@ class Http
     /**
      * Upload file.
      *
-     * @param  string  $url
-     *
-     * @return ResponseInterface
-     *
      * @throws HttpException
      */
-    public function upload($url, array $files = [], array $form = [], array $queries = [])
+    public function upload(string $url, array $files = [], array $form = [], array $queries = []): ResponseInterface
     {
         $multipart = [];
 
         foreach ($files as $name => $path) {
             $multipart[] = [
-                'name'     => $name,
+                'name' => $name,
                 'contents' => fopen($path, 'r'),
             ];
         }
@@ -167,10 +149,8 @@ class Http
 
     /**
      * Set GuzzleHttp\Client.
-     *
-     * @return Http
      */
-    public function setClient(HttpClient $client)
+    public function setClient(HttpClient $client): self
     {
         $this->client = $client;
 
@@ -179,10 +159,8 @@ class Http
 
     /**
      * Return GuzzleHttp\Client instance.
-     *
-     * @return \GuzzleHttp\Client
      */
-    public function getClient()
+    public function getClient(): HttpClient
     {
         if (!($this->client instanceof HttpClient)) {
             $this->client = new HttpClient();
@@ -208,7 +186,7 @@ class Http
      *
      * @return array
      */
-    public function getMiddlewares()
+    public function getMiddlewares(): array
     {
         return $this->middlewares;
     }
@@ -216,13 +194,9 @@ class Http
     /**
      * Make a request.
      *
-     * @param  string  $url
-     * @param  string  $method
      * @param  array  $options
-     *
-     * @return ResponseInterface
      */
-    public function request($url, $method = 'GET', $options = [])
+    public function request(string $url, string $method = 'GET', array $options = []): ResponseInterface
     {
         $method = strtoupper($method);
 
@@ -235,23 +209,19 @@ class Http
         $response = $this->getClient()->request($method, $url, $options);
 
         Log::debug('API response:', [
-            'Status'  => $response->getStatusCode(),
-            'Reason'  => $response->getReasonPhrase(),
+            'Status' => $response->getStatusCode(),
+            'Reason' => $response->getReasonPhrase(),
             'Headers' => $response->getHeaders(),
-            'Body'    => strval($response->getBody()),
+            'Body' => strval($response->getBody()),
         ]);
 
         return $response;
     }
 
     /**
-     * @param  \Psr\Http\Message\ResponseInterface|string  $body
-     *
-     * @return mixed
-     *
      * @throws HttpException
      */
-    public function parseJSON($body)
+    public function parseJSON(ResponseInterface|string $body): mixed
     {
         if ($body instanceof ResponseInterface) {
             $body = mb_convert_encoding($body->getBody(), 'UTF-8');
@@ -265,7 +235,7 @@ class Http
 
         Log::debug('API response decoded:', compact('contents'));
 
-        if (JSON_ERROR_NONE !== json_last_error()) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new HttpException('Failed to parse JSON: ' . json_last_error_msg());
         }
 
@@ -273,34 +243,11 @@ class Http
     }
 
     /**
-     * Build a handler.
-     *
-     * @return HandlerStack
-     */
-    protected function getHandler()
-    {
-        $stack = HandlerStack::create();
-
-        foreach ($this->middlewares as $middleware) {
-            $stack->push($middleware);
-        }
-
-        if (isset(static::$defaults['handler']) && is_callable(static::$defaults['handler'])) {
-            $stack->push(static::$defaults['handler'], self::USER_DEFINED_HANDLER);
-        }
-
-        return $stack;
-    }
-
-    /**
      * upload File.
      *
-     * @param string $uploadUrls
      * @param array $headers
-     * @param string $fileContent
-     * @return int|mixed
      */
-    public function sendHttpPut($uploadUrls, $fileContent, $headers)
+    public function sendHttpPut(string $uploadUrls, string $fileContent, array $headers): mixed
     {
         $status = '';
         $curl_handle = curl_init();
@@ -328,5 +275,23 @@ class Http
         curl_close($curl_handle);
 
         return $status;
+    }
+
+    /**
+     * Build a handler.
+     */
+    protected function getHandler(): HandlerStack
+    {
+        $stack = HandlerStack::create();
+
+        foreach ($this->middlewares as $middleware) {
+            $stack->push($middleware);
+        }
+
+        if (isset(static::$defaults['handler']) && is_callable(static::$defaults['handler'])) {
+            $stack->push(static::$defaults['handler'], self::USER_DEFINED_HANDLER);
+        }
+
+        return $stack;
     }
 }

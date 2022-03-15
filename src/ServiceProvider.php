@@ -8,9 +8,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     protected $defer = true;
 
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton(Esign::class, function () {
+        $this->app->singleton(Esign::class, static function () {
             return new Esign(config('esign'));
         });
 
@@ -22,7 +22,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         return [Esign::class, 'esign'];
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__ . '/config.php' => config_path('esign.php'),

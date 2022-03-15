@@ -10,6 +10,7 @@ use XNXK\LaravelEsign\Exceptions\HttpException;
 
 class AccessToken
 {
+    public const API_TOKEN_GET = '/v1/oauth2/access_token';
     protected $appId;
 
     protected $secret;
@@ -24,9 +25,7 @@ class AccessToken
 
     protected $prefix = 'esign.common.access_token.';
 
-    const API_TOKEN_GET = '/v1/oauth2/access_token';
-
-    public function __construct($appId, $secret, Cache $cache = null)
+    public function __construct($appId, $secret, ?Cache $cache = null)
     {
         $this->appId = $appId;
         $this->secret = $secret;
@@ -34,13 +33,9 @@ class AccessToken
     }
 
     /**
-     * @param  bool  $forceRefresh
-     *
-     * @return bool|mixed
-     *
      * @throws HttpException
      */
-    public function getToken($forceRefresh = false)
+    public function getToken(bool $forceRefresh = false): mixed
     {
         $cacheKey = $this->getCacheKey();
         $cached = $this->getCache()->fetch($cacheKey);
@@ -56,15 +51,13 @@ class AccessToken
     }
 
     /**
-     * @return mixed
-     *
      * @throws HttpException
      */
-    public function getTokenFromServer()
+    public function getTokenFromServer(): mixed
     {
         $params = [
-            'appId'     => $this->appId,
-            'secret'    => $this->secret,
+            'appId' => $this->appId,
+            'secret' => $this->secret,
             'grantType' => 'client_credentials',
         ];
 
@@ -87,11 +80,6 @@ class AccessToken
     public function getSecret()
     {
         return $this->secret;
-    }
-
-    protected function getCache()
-    {
-        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
     }
 
     public function getHttp()
@@ -118,6 +106,11 @@ class AccessToken
         $this->cacheKey = $cacheKey;
 
         return $this;
+    }
+
+    protected function getCache()
+    {
+        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
     }
 
     protected function getCacheKey()

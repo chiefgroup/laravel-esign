@@ -11,11 +11,11 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Pimple\Container;
+use Symfony\Component\HttpFoundation\Request;
 use XNXK\LaravelEsign\Core\AbstractAPI;
 use XNXK\LaravelEsign\Core\AccessToken;
 use XNXK\LaravelEsign\Core\Http;
 use XNXK\LaravelEsign\Support\Log;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class Esign.
@@ -41,7 +41,7 @@ class Esign extends Container
     {
         parent::__construct($config);
 
-        $this['config'] = function () use ($config) {
+        $this['config'] = static function () use ($config) {
             return new Foundation\Config($config);
         };
 
@@ -58,7 +58,32 @@ class Esign extends Container
         $this->logConfiguration($config);
     }
 
-    public function logConfiguration($config)
+    public function __get($name)
+    {
+        return $this->offsetGet($name);
+    }
+
+    public function __set($name, $value): void
+    {
+        $this->offsetSet($name, $value);
+    }
+
+    /**
+     * @param $method
+     * @param $args
+     *
+     * @throws \Exception
+     */
+    public function __call($method, $args): mixed
+    {
+        if (is_callable([$this['fundamental.api'], $method])) {
+            return call_user_func_array([$this['fundamental.api'], $method], $args);
+        }
+
+        throw new \Exception("Call to undefined method {$method}()");
+    }
+
+    public function logConfiguration($config): void
     {
         $config = new Foundation\Config($config);
 
@@ -77,7 +102,7 @@ class Esign extends Container
         return $this;
     }
 
-    public function setProviders(array $providers)
+    public function setProviders(array $providers): void
     {
         $this->providers = [];
 
@@ -91,33 +116,23 @@ class Esign extends Container
         return $this->providers;
     }
 
-    public function __get($name)
-    {
-        return $this->offsetGet($name);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->offsetSet($name, $value);
-    }
-
-    private function registerProviders()
+    private function registerProviders(): void
     {
         foreach ($this->providers as $provider) {
             $this->register(new $provider());
         }
     }
 
-    private function registerBase()
+    private function registerBase(): void
     {
-        $this['request'] = function () {
+        $this['request'] = static function () {
             return Request::createFromGlobals();
         };
 
         if (!empty($this['config']['cache']) && $this['config']['cache'] instanceof CacheInterface) {
             $this['cache'] = $this['config']['cache'];
         } else {
-            $this['cache'] = function () {
+            $this['cache'] = static function () {
                 return new FilesystemCache(sys_get_temp_dir());
             };
         }
@@ -131,7 +146,7 @@ class Esign extends Container
         };
     }
 
-    private function initializeLogger()
+    private function initializeLogger(): void
     {
         if (Log::hasLogger()) {
             return;
@@ -147,33 +162,16 @@ class Esign extends Container
             try {
                 $logger->pushHandler(
                     new StreamHandler(
-                    $logFile,
-                    $this['config']->get('log.level', Logger::WARNING),
-                    true,
-                    $this['config']->get('log.permission', null)
-                )
+                        $logFile,
+                        $this['config']->get('log.level', Logger::WARNING),
+                        true,
+                        $this['config']->get('log.permission', null)
+                    )
                 );
             } catch (\Exception $e) {
             }
         }
 
         Log::setLogger($logger);
-    }
-
-    /**
-     * @param $method
-     * @param $args
-     *
-     * @return mixed
-     *
-     * @throws \Exception
-     */
-    public function __call($method, $args)
-    {
-        if (is_callable([$this['fundamental.api'], $method])) {
-            return call_user_func_array([$this['fundamental.api'], $method], $args);
-        }
-
-        throw new \Exception("Call to undefined method {$method}()");
     }
 }

@@ -11,18 +11,18 @@ use XNXK\LaravelEsign\Support\Collection;
 class SignFlow extends AbstractAPI
 {
     // Api URL
-    const CREATE_FLOW_NOE_STEP = '/api/v2/signflows/createFlowOneStep';         // 一步发起签署
-    const CREATE_SIGN_PROCESS = '/v1/signflows';                                // 签署流程创建
-    const PROCESS_DOCUMENT_ADD = '/v1/signflows/%s/documents';                  // 流程文档添加
-    const PLATFORM_SIGN_ADD = '/v1/signflows/%s/signfields/platformSign';       // 添加平台方自动盖章签署区
-    const HAND_SIGN_ADD = '/v1/signflows/%s/signfields/handSign';               // 添加手动盖章签署区
-    const AUTO_SIGN_ADD = 'v1/signflows/%s/signfields/autoSign';                // 添加签署方自动盖章签署区
-    const SIGN_PROCESS_START = '/v1/signflows/%s/start';                        // 签署流程开启
-    const EXECUTE_URL = '/v1/signflows/%s/executeUrl';                          // 获取签署地址
-    const SIGN_PROCESS_ARCHIVE = '/v1/signflows/%s/archive';                    // 签署流程归档
-    const SIGN_PROCESS_DOCUMENT = '/v1/signflows/%s/documents';                 // 流程文档下载
-    const SIGN_REVOKE = '/v1/signflows/%s/revoke';                              // 签署流程撤销
-    const SIGN_PROCESS_STATUS = '/v1/signflows/%s';                             // 签署流程状态查询
+    public const CREATE_FLOW_NOE_STEP = '/api/v2/signflows/createFlowOneStep';         // 一步发起签署
+    public const CREATE_SIGN_PROCESS = '/v1/signflows';                                // 签署流程创建
+    public const PROCESS_DOCUMENT_ADD = '/v1/signflows/%s/documents';                  // 流程文档添加
+    public const PLATFORM_SIGN_ADD = '/v1/signflows/%s/signfields/platformSign';       // 添加平台方自动盖章签署区
+    public const HAND_SIGN_ADD = '/v1/signflows/%s/signfields/handSign';               // 添加手动盖章签署区
+    public const AUTO_SIGN_ADD = 'v1/signflows/%s/signfields/autoSign';                // 添加签署方自动盖章签署区
+    public const SIGN_PROCESS_START = '/v1/signflows/%s/start';                        // 签署流程开启
+    public const EXECUTE_URL = '/v1/signflows/%s/executeUrl';                          // 获取签署地址
+    public const SIGN_PROCESS_ARCHIVE = '/v1/signflows/%s/archive';                    // 签署流程归档
+    public const SIGN_PROCESS_DOCUMENT = '/v1/signflows/%s/documents';                 // 流程文档下载
+    public const SIGN_REVOKE = '/v1/signflows/%s/revoke';                              // 签署流程撤销
+    public const SIGN_PROCESS_STATUS = '/v1/signflows/%s';                             // 签署流程状态查询
 
     /**
      * 一步发起签署.
@@ -33,11 +33,9 @@ class SignFlow extends AbstractAPI
      * @param  array  $attachments  流程基本信息
      * @param  array  $copiers  签署方信息
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function createFlowOneStep($docs, $flowInfo, $signers, $attachments = [], $copiers = [])
+    public function createFlowOneStep(array $docs, array $flowInfo, array $signers, array $attachments = [], array $copiers = []): ?Collection
     {
         $params = compact('docs', 'flowInfo', 'signers');
         $attachments and $params['attachments'] = $attachments;
@@ -53,16 +51,14 @@ class SignFlow extends AbstractAPI
      * @param  string  $noticeDeveloperUrl  回调通知地址
      * @param  bool  $autoArchive  是否自动归档
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function createSignFlow($businessScene, $noticeDeveloperUrl = null, $autoArchive = true)
+    public function createSignFlow(string $businessScene, ?string $noticeDeveloperUrl = null, bool $autoArchive = true): ?Collection
     {
         $params = [
-            'autoArchive'   => $autoArchive,
+            'autoArchive' => $autoArchive,
             'businessScene' => $businessScene,
-            'configInfo'    => [
+            'configInfo' => [
                 'noticeDeveloperUrl' => $noticeDeveloperUrl,
             ],
         ];
@@ -79,19 +75,17 @@ class SignFlow extends AbstractAPI
      * @param  null  $fileName  文件名称
      * @param  null  $filePassword  文档密码
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function addDocuments($flowId, $fileId, $encryption = 0, $fileName = null, $filePassword = null)
+    public function addDocuments(string $flowId, string $fileId, int $encryption = 0, $fileName = null, $filePassword = null): ?Collection
     {
         $url = sprintf(self::PROCESS_DOCUMENT_ADD, $flowId);
         $params = [
             'docs' => [
                 [
-                    'fileId'       => $fileId,
-                    'encryption'   => $encryption,
-                    'fileName'     => $fileName,
+                    'fileId' => $fileId,
+                    'encryption' => $encryption,
+                    'fileName' => $fileName,
                     'filePassword' => $filePassword,
                 ],
             ],
@@ -106,11 +100,9 @@ class SignFlow extends AbstractAPI
      * @param  string  $flowId  流程id
      * @param  string  $signFields  签署区列表数据
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function addPlatformSign($flowId, $signFields)
+    public function addPlatformSign(string $flowId, string $signFields): ?Collection
     {
         $url = sprintf(self::PLATFORM_SIGN_ADD, $flowId);
         $params = [
@@ -126,11 +118,9 @@ class SignFlow extends AbstractAPI
      * @param  string  $flowId  流程id
      * @param  array  $signFields  签署区列表数据
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function addAutoSign($flowId, $signFields)
+    public function addAutoSign(string $flowId, array $signFields): ?Collection
     {
         $url = sprintf(self::AUTO_SIGN_ADD, $flowId);
         $params = [
@@ -146,11 +136,9 @@ class SignFlow extends AbstractAPI
      * @param  string  $flowId  流程id
      * @param  array  $signFields  签署区列表数据
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function addHandSign($flowId, $signFields)
+    public function addHandSign(string $flowId, array $signFields): ?Collection
     {
         $url = sprintf(self::HAND_SIGN_ADD, $flowId);
         $params = [
@@ -165,11 +153,9 @@ class SignFlow extends AbstractAPI
      *
      * @param  string  $flowId  流程id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function startSignFlow($flowId)
+    public function startSignFlow(string $flowId): ?Collection
     {
         $url = sprintf(self::SIGN_PROCESS_START, $flowId);
 
@@ -185,18 +171,16 @@ class SignFlow extends AbstractAPI
      * @param  int  $urlType  链接类型: 0-签署链接;1-预览链接;默认0
      * @param  null  $appScheme  app内对接必传
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function getExecuteUrl($flowId, $accountId, $urlType = 0, $orgId = 0, $appScheme = null)
+    public function getExecuteUrl(string $flowId, string $accountId, int $urlType = 0, $orgId = 0, $appScheme = null): ?Collection
     {
         $url = sprintf(self::EXECUTE_URL, $flowId);
         $params = [
-            'accountId'  => $accountId,
+            'accountId' => $accountId,
             'organizeId' => $orgId,
-            'urlType'    => $urlType,
-            'appScheme'  => $appScheme,
+            'urlType' => $urlType,
+            'appScheme' => $appScheme,
         ];
 
         return $this->parseJSON('get', [$url, $params]);
@@ -207,11 +191,9 @@ class SignFlow extends AbstractAPI
      *
      * @param  string  $flowId  流程id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function archiveSign($flowId)
+    public function archiveSign(string $flowId): ?Collection
     {
         $url = sprintf(self::SIGN_PROCESS_ARCHIVE, $flowId);
 
@@ -223,11 +205,9 @@ class SignFlow extends AbstractAPI
      *
      * @param  string  $flowId  流程id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function downloadDocument($flowId)
+    public function downloadDocument(string $flowId): ?Collection
     {
         $url = sprintf(self::SIGN_PROCESS_DOCUMENT, $flowId);
 
@@ -239,11 +219,9 @@ class SignFlow extends AbstractAPI
      *
      * @param  string  $flowId  流程id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function revoke($flowId)
+    public function revoke(string $flowId): ?Collection
     {
         $url = sprintf(self::SIGN_REVOKE, $flowId);
 
@@ -254,10 +232,10 @@ class SignFlow extends AbstractAPI
      * 签署流程结果查询.
      *
      * @param  string  $flowId  流程id
-     * @return Collection|null
+     *
      * @throws HttpException
      */
-    public function getSignFlowStatus($flowId)
+    public function getSignFlowStatus(string $flowId): ?Collection
     {
         $url = sprintf(self::SIGN_PROCESS_STATUS, $flowId);
 

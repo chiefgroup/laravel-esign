@@ -10,9 +10,9 @@ use XNXK\LaravelEsign\File;
 
 class FileProvider implements ServiceProviderInterface
 {
-    public function register(Container $pimple)
+    public function register(Container $pimple): void
     {
-        $pimple['file'] = function ($pimple) {
+        $pimple['file'] = static function ($pimple) {
             return new File\File($pimple['access_token']);
         };
     }

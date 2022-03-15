@@ -10,9 +10,9 @@ use XNXK\LaravelEsign\Template;
 
 class TemplateProvider implements ServiceProviderInterface
 {
-    public function register(Container $pimple)
+    public function register(Container $pimple): void
     {
-        $pimple['template'] = function ($pimple) {
+        $pimple['template'] = static function ($pimple) {
             return new Template\Template($pimple['access_token']);
         };
     }

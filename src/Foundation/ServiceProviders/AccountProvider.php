@@ -10,9 +10,9 @@ use XNXK\LaravelEsign\Account;
 
 class AccountProvider implements ServiceProviderInterface
 {
-    public function register(Container $pimple)
+    public function register(Container $pimple): void
     {
-        $pimple['account'] = function ($pimple) {
+        $pimple['account'] = static function ($pimple) {
             return new Account\Account($pimple['access_token']);
         };
     }

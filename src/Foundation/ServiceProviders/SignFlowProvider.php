@@ -10,9 +10,9 @@ use XNXK\LaravelEsign\SignFlow;
 
 class SignFlowProvider implements ServiceProviderInterface
 {
-    public function register(Container $pimple)
+    public function register(Container $pimple): void
     {
-        $pimple['signflow'] = function ($pimple) {
+        $pimple['signflow'] = static function ($pimple) {
             return new SignFlow\SignFlow($pimple['access_token']);
         };
     }

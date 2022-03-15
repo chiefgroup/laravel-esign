@@ -13,6 +13,8 @@ use XNXK\LaravelEsign\Support\Log;
 
 abstract class AbstractAPI
 {
+    public const JSON = 'json';
+    public const SUCCESS_STATUS = 200;
     /**
      * Http instance.
      *
@@ -26,9 +28,6 @@ abstract class AbstractAPI
      * @var AccessToken
      */
     protected $accessToken;
-
-    const JSON = 'json';
-    const SUCCESS_STATUS = 200;
 
     /**
      * @var int
@@ -45,16 +44,14 @@ abstract class AbstractAPI
 
     /**
      * Return the http instance.
-     *
-     * @return Http
      */
-    public function getHttp()
+    public function getHttp(): Http
     {
         if (is_null($this->http)) {
             $this->http = new Http();
         }
 
-        if (0 === count($this->http->getMiddlewares())) {
+        if (count($this->http->getMiddlewares()) === 0) {
             $this->registerHttpMiddlewares();
         }
 
@@ -75,10 +72,8 @@ abstract class AbstractAPI
 
     /**
      * Return the current accessToken.
-     *
-     * @return AccessToken
      */
-    public function getAccessToken()
+    public function getAccessToken(): AccessToken
     {
         return $this->accessToken;
     }
@@ -95,10 +90,7 @@ abstract class AbstractAPI
         return $this;
     }
 
-    /**
-     * @param int $retries
-     */
-    public static function maxRetries($retries)
+    public static function maxRetries(int $retries): void
     {
         self::$maxRetries = abs($retries);
     }
@@ -109,11 +101,9 @@ abstract class AbstractAPI
      * @param $method
      * @param array $args
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function parseJSON($method, array $args)
+    public function parseJSON($method, array $args): ?Collection
     {
         $http = $this->getHttp();
 
@@ -130,18 +120,16 @@ abstract class AbstractAPI
 
     /**
      * Put upload File.
-     * @param string $uploadUrls
-     * @param string $fileContent
+     *
      * @param array $headers
-     * @return int|mixed
      */
-    public function httpPut($uploadUrls, $fileContent, $headers)
+    public function httpPut(string $uploadUrls, string $fileContent, array $headers): mixed
     {
         $http = $this->getHttp();
 
         $status = $http->sendHttpPut($uploadUrls, $fileContent, $headers);
 
-        if ($status != self::SUCCESS_STATUS) {
+        if ($status !== self::SUCCESS_STATUS) {
             Log::debug('Request Upload File headers:' . json_encode($headers));
             Log::debug('Request Upload File url:' . $uploadUrls);
             throw new HttpException('文件上传失败！', 10001);
@@ -153,7 +141,7 @@ abstract class AbstractAPI
     /**
      * Register Guzzle middlewares.
      */
-    protected function registerHttpMiddlewares()
+    protected function registerHttpMiddlewares(): void
     {
         // log
         $this->http->addMiddleware($this->logMiddleware());
@@ -165,10 +153,8 @@ abstract class AbstractAPI
 
     /**
      * Attache access token to request query.
-     *
-     * @return \Closure
      */
-    protected function accessTokenMiddleware()
+    protected function accessTokenMiddleware(): \Closure
     {
         return function (callable $handler) {
             return function (RequestInterface $request, array $options) use ($handler) {
@@ -187,12 +173,10 @@ abstract class AbstractAPI
 
     /**
      * Log the request.
-     *
-     * @return \Closure
      */
-    protected function logMiddleware()
+    protected function logMiddleware(): \Closure
     {
-        return Middleware::tap(function (RequestInterface $request, $options) {
+        return Middleware::tap(static function (RequestInterface $request, $options): void {
             Log::debug("Request: {$request->getMethod()} {$request->getUri()} " . json_encode($options));
             Log::debug('Request headers:' . json_encode($request->getHeaders()));
         });
@@ -200,20 +184,18 @@ abstract class AbstractAPI
 
     /**
      * Return retry middleware.
-     *
-     * @return \Closure
      */
-    protected function retryMiddleware()
+    protected function retryMiddleware(): \Closure
     {
         return Middleware::retry(function (
             $retries,
             RequestInterface $request,
-            ResponseInterface $response = null
+            ?ResponseInterface $response = null
         ) {
             // Limit the number of retries to 2
             if ($retries <= self::$maxRetries && $response && $body = $response->getBody()) {
                 // Retry on server errors
-                if (false !== stripos($body, 'code') && (false !== stripos($body, '40001') || false !== stripos($body, '42001'))) {
+                if (stripos($body, 'code') !== false && (stripos($body, '40001') !== false || stripos($body, '42001') !== false)) {
                     $token = $this->accessToken->getToken(true);
 
                     $request = $request->withHeader('X-Tsign-Open-App-Id', $this->accessToken->getAppId());
@@ -235,9 +217,9 @@ abstract class AbstractAPI
      *
      * @throws HttpException
      */
-    protected function checkAndThrow(array $contents)
+    protected function checkAndThrow(array $contents): void
     {
-        if (isset($contents['code']) && 0 !== $contents['code']) {
+        if (isset($contents['code']) && $contents['code'] !== 0) {
             if (isset($contents['data'])) {
                 Log::debug(json_encode($contents['data']));
             } else {

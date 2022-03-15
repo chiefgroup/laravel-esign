@@ -10,9 +10,9 @@ use XNXK\LaravelEsign\Identity;
 
 class IdentityProvider implements ServiceProviderInterface
 {
-    public function register(Container $pimple)
+    public function register(Container $pimple): void
     {
-        $pimple['identity'] = function ($pimple) {
+        $pimple['identity'] = static function ($pimple) {
             return new Identity\Identity($pimple['access_token']);
         };
     }

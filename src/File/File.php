@@ -11,14 +11,14 @@ use XNXK\LaravelEsign\Support\Collection;
 class File extends AbstractAPI
 {
     // Api URL
-    const CREATE_SIGN_DOCUMENT = '/v1/files/getUploadUrl';                          // 通过上传方式创建文件
-    const CREATE_UPLOAD_URL = '/v1/docTemplates/createByUploadUrl';                 // 通过上传方式创建模板
-    const ADD_DOC_TEMPLATES = '/v1/docTemplates/%s/components';                     // 通过模板添加输入项组件
-    const DEL_DOC_TEMPLATES = '/v1/docTemplates/%s/components/%s';                  // 删除输入项组件
-    const QUERY_DOC_TEMPLATES = '/v1/docTemplates/%s';                              // 查询模板详情/下载模板
-    const CREATE_TEMPLATE = '/v1/files/createByTemplate';                           // 通过模板创建文件
-    const QUERY_FILE = '/v1/files/%s';                                              // 查询文件详情/下载文件
-    const ADD_WATERMARK = '/v1/files/batchAddWatermark';                            // 文件添加数字水印
+    public const CREATE_SIGN_DOCUMENT = '/v1/files/getUploadUrl';                          // 通过上传方式创建文件
+    public const CREATE_UPLOAD_URL = '/v1/docTemplates/createByUploadUrl';                 // 通过上传方式创建模板
+    public const ADD_DOC_TEMPLATES = '/v1/docTemplates/%s/components';                     // 通过模板添加输入项组件
+    public const DEL_DOC_TEMPLATES = '/v1/docTemplates/%s/components/%s';                  // 删除输入项组件
+    public const QUERY_DOC_TEMPLATES = '/v1/docTemplates/%s';                              // 查询模板详情/下载模板
+    public const CREATE_TEMPLATE = '/v1/files/createByTemplate';                           // 通过模板创建文件
+    public const QUERY_FILE = '/v1/files/%s';                                              // 查询文件详情/下载文件
+    public const ADD_WATERMARK = '/v1/files/batchAddWatermark';                            // 文件添加数字水印
 
     /**
      * 通过上传方式创建文件.
@@ -29,18 +29,16 @@ class File extends AbstractAPI
      * @param  string  $fileName  文件名称（必须带上文件扩展名，不然会导致后续发起流程校验过不去 示例：合同.pdf ）
      * @param  int  $fileSize  文件大小，单位byte
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function getUploadFileUrl($contentMd5, $fileName, $fileSize, $contentType = 'application/pdf', $convert2Pdf = false)
+    public function getUploadFileUrl(string $contentMd5, string $fileName, int $fileSize, string $contentType = 'application/pdf', bool $convert2Pdf = false): ?Collection
     {
         $params = [
-            'contentMd5'  => $contentMd5,
+            'contentMd5' => $contentMd5,
             'contentType' => $contentType,
             'convert2Pdf' => $convert2Pdf,
-            'fileName'    => $fileName,
-            'fileSize'    => $fileSize,
+            'fileName' => $fileName,
+            'fileSize' => $fileSize,
         ];
 
         return $this->parseJSON('json', [self::CREATE_SIGN_DOCUMENT, $params]);
@@ -55,10 +53,9 @@ class File extends AbstractAPI
      * @param  string  $fileName  文件名称（必须带上文件扩展名，不然会导致后续发起流程校验过不去 示例：合同.pdf ）
      * @param  int  $fileSize  文件大小，单位byte
      *
-     * @return Collection|null
      * @throws HttpException
      */
-    public function getUploadFile($filePath, $fileName, $fileSize, $contentType = 'application/pdf', $convert2Pdf = false)
+    public function getUploadFile($filePath, string $fileName, int $fileSize, string $contentType = 'application/pdf', bool $convert2Pdf = false): ?Collection
     {
         $contentMd5 = $this->_getContentBase64Md5($filePath);
 
@@ -77,17 +74,15 @@ class File extends AbstractAPI
      * @param  string  $fileName  文件名称（必须带上文件扩展名，不然会导致后续发起流程校验过不去 示例：合同.pdf ）
      * @param  bool  $convert2Pdf  是否转换成pdf文档，默认false
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function createByUploadUrl($contentMd5, $fileName, $contentType = 'application/pdf', $convert2Pdf = false)
+    public function createByUploadUrl(string $contentMd5, string $fileName, string $contentType = 'application/pdf', bool $convert2Pdf = false): ?Collection
     {
         $params = [
-            'contentMd5'  => $contentMd5,
+            'contentMd5' => $contentMd5,
             'contentType' => $contentType,
             'convert2Pdf' => $convert2Pdf,
-            'fileName'    => $fileName,
+            'fileName' => $fileName,
         ];
 
         return $this->parseJSON('json', [self::CREATE_UPLOAD_URL, $params]);
@@ -95,14 +90,12 @@ class File extends AbstractAPI
 
     /**
      * 通过上传方式创建模板 && 上传文件.
+     *
      * @param  string  $contentMd5
-     * @param  string  $fileName
-     * @param  string  $contentType
-     * @param  bool  $convert2Pdf
-     * @return Collection|null
+     *
      * @throws HttpException
      */
-    public function createByUploadFile($filePath, $fileName, $contentType = 'application/pdf', $convert2Pdf = false)
+    public function createByUploadFile($filePath, string $fileName, string $contentType = 'application/pdf', bool $convert2Pdf = false): ?Collection
     {
         $contentMd5 = $this->_getContentBase64Md5($filePath);
 
@@ -111,42 +104,6 @@ class File extends AbstractAPI
         $this->_upLoadFile($result['uploadUrl'], $filePath, $contentMd5, $contentType);
 
         return $result;
-    }
-
-    /**
-     * 上传文件.
-     * @param  string  $uploadUrls
-     * @param  string  $filePath
-     * @param  string  $contentMd5
-     * @return mixed
-     */
-    private function _upLoadFile($uploadUrls, $filePath, $contentMd5, $contentType = 'application/pdf')
-    {
-        $fileContent = file_get_contents($filePath);
-
-        $headers = [
-            'Content-Type:' . $contentType,
-            'Content-Md5:' . $contentMd5,
-        ];
-
-        $this->httpPut($uploadUrls, $fileContent, $headers);
-    }
-
-    /**
-     *  获取文件的Content-MD5
-     *  原理：
-     *  1.先计算MD5加密的二进制数组（128位）
-     *  2.再对这个二进制进行base64编码（而不是对32位字符串编码）.
-     *
-     * @param $filePath
-     * @return string
-     */
-    private function _getContentBase64Md5($filePath)
-    {
-        //获取文件MD5的128位二进制数组
-        $md5file = md5_file($filePath, true);
-        //计算文件的Content-MD5
-        return base64_encode($md5file);
     }
 
     /**
@@ -168,49 +125,47 @@ class File extends AbstractAPI
      * @param  bool  $required  是否必填，默认true
      * @param  null  $limit  输入项组件type=2,type=3时填充格式校验规则;数字格式如：# 或者 #00.0# 日期格式如： yyyy-MM-dd
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
     public function createInputOption(
-        $templateId,
-        $type,
-        $label,
-        $width,
-        $height,
-        $page,
-        $x,
-        $y,
-        $font = 1,
-        $fontSize = 12,
-        $textColor = '#000000',
+        string $templateId,
+        int $type,
+        string $label,
+        float $width,
+        float $height,
+        int $page,
+        float $x,
+        float $y,
+        int $font = 1,
+        int $fontSize = 12,
+        string $textColor = '#000000',
         $id = null,
         $key = null,
-        $required = true,
+        bool $required = true,
         $limit = null
-    ) {
+    ): ?Collection {
         $url = sprintf(self::ADD_DOC_TEMPLATES, $templateId);
 
         $params = [
             'structComponent' => [
-                'id'      => $id,
-                'key'     => $key,
-                'type'    => $type,
+                'id' => $id,
+                'key' => $key,
+                'type' => $type,
                 'context' => [
-                    'label'    => $label,
+                    'label' => $label,
                     'required' => $required,
-                    'limit'    => $limit,
-                    'style'    => [
-                        'width'     => $width,
-                        'height'    => $height,
-                        'font'      => $font,
-                        'fontSize'  => $fontSize,
+                    'limit' => $limit,
+                    'style' => [
+                        'width' => $width,
+                        'height' => $height,
+                        'font' => $font,
+                        'fontSize' => $fontSize,
                         'textColor' => $textColor,
                     ],
-                    'pos'      => [
+                    'pos' => [
                         'page' => $page,
-                        'x'    => $x,
-                        'y'    => $y,
+                        'x' => $x,
+                        'y' => $y,
                     ],
                 ],
             ],
@@ -225,11 +180,9 @@ class File extends AbstractAPI
      * @param  string  $templateId  模板id
      * @param  string  $ids  输入项组件id集合，逗号分隔
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function deleteInputOptions($templateId, $ids)
+    public function deleteInputOptions(string $templateId, string $ids): ?Collection
     {
         $url = sprintf(self::DEL_DOC_TEMPLATES, $templateId, $ids);
 
@@ -241,11 +194,9 @@ class File extends AbstractAPI
      *
      * @param  string  $templateId  模板id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function downloadDocTemplate($templateId)
+    public function downloadDocTemplate(string $templateId): ?Collection
     {
         $url = sprintf(self::QUERY_DOC_TEMPLATES, $templateId);
 
@@ -259,15 +210,13 @@ class File extends AbstractAPI
      * @param  string  $name  文件名称（必须带上文件扩展名，不然会导致后续发起流程校验过不去 示例：合同.pdf ）；
      * @param  string  $simpleFormFields  输入项填充内容，key:value 传入
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function createByTemplate($templateId, $name, $simpleFormFields)
+    public function createByTemplate(string $templateId, string $name, string $simpleFormFields): ?Collection
     {
         $params = [
-            'name'             => $name,
-            'templateId'       => $templateId,
+            'name' => $name,
+            'templateId' => $templateId,
             'simpleFormFields' => $simpleFormFields,
         ];
 
@@ -279,11 +228,9 @@ class File extends AbstractAPI
      *
      * @param  string  $fileId  文件id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function downloadFile($fileId)
+    public function downloadFile(string $fileId): ?Collection
     {
         $url = sprintf(self::QUERY_FILE, $fileId);
 
@@ -297,18 +244,47 @@ class File extends AbstractAPI
      * @param  string|null  $notifyUrl  水印图片全部添加完成回调地址
      * @param  string|null  $thirdOrderNo  三方流水号（唯一），有回调必填
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function batchAddWatermark($files, $notifyUrl = null, $thirdOrderNo = null)
+    public function batchAddWatermark(array $files, ?string $notifyUrl = null, ?string $thirdOrderNo = null): ?Collection
     {
         $params = [
-            'files'        => $files,
-            'notifyUrl'    => $notifyUrl,
+            'files' => $files,
+            'notifyUrl' => $notifyUrl,
             'thirdOrderNo' => $thirdOrderNo,
         ];
 
         return $this->parseJSON('json', [self::ADD_WATERMARK, $params]);
+    }
+
+    /**
+     * 上传文件.
+     */
+    private function _upLoadFile(string $uploadUrls, string $filePath, string $contentMd5, $contentType = 'application/pdf'): mixed
+    {
+        $fileContent = file_get_contents($filePath);
+
+        $headers = [
+            'Content-Type:' . $contentType,
+            'Content-Md5:' . $contentMd5,
+        ];
+
+        $this->httpPut($uploadUrls, $fileContent, $headers);
+    }
+
+    /**
+     *  获取文件的Content-MD5
+     *  原理：
+     *  1.先计算MD5加密的二进制数组（128位）
+     *  2.再对这个二进制进行base64编码（而不是对32位字符串编码）.
+     *
+     * @param $filePath
+     */
+    private function _getContentBase64Md5($filePath): string
+    {
+        //获取文件MD5的128位二进制数组
+        $md5file = md5_file($filePath, true);
+        //计算文件的Content-MD5
+        return base64_encode($md5file);
     }
 }

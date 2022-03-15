@@ -11,18 +11,18 @@ use XNXK\LaravelEsign\Support\Collection;
 class Account extends AbstractAPI
 {
     // API URL
-    const CREATE_PERSONAL_ACCOUNT = '/v1/accounts/createByThirdPartyUserId';                // 创建个人账户
-    const UPDATE_ACCOUNT_BY_THIRD_ID = '/v1/accounts/updateByThirdId?thirdPartyUserId=%s';  // 个人账户修改(按照第三方用户ID修改)
-    const QUERY_ACCOUNT_BY_THIRD_ID = '/v1/accounts/getByThirdId';                          // 查询个人账户（按照第三方用户ID查询）
-    const DEL_ACCOUNT_BY_THIRD_ID = '/v1/accounts/deleteByThirdId?thirdPartyUserId=%s';     // 注销个人账户（按照第三方用户ID查询）
-    const SET_ACCOUNT_SIGN_PAW = '/v1/accounts/%s/setSignPwd';                              // 设置签署密码
-    const ACCOUNT_BY_ID = '/v1/accounts/%s';                                                // 个人账户修改\查询个人账户\注销个人账户(按照账号ID)
-    const ORG_BY_ID = '/v1/organizations/%s';                                               // 机构账户修改\查询机构账号\注销机构账号(按照账号ID)
-    const CREATE_COMPANY_ACCOUNT = '/v1/organizations/createByThirdPartyUserId';            // 创建企业账户
-    const UPDATE_ORG_BY_THIRD_ID = '/v1/organizations/updateByThirdId?thirdPartyUserId=%s'; // 机构账号修改（按照第三方机构ID修改）
-    const QUERY_ORG_BY_THIRD_ID = '/v1/organizations/getByThirdId?thirdPartyUserId=%s';     // 查询机构账号（按照第三方机构ID查询）
-    const DEL_ORG_BY_THIRD_ID = '/v1/organizations/deleteByThirdId?thirdPartyUserId=%s';    // 注销机构账号（按照账号ID注销）
-    const SIGN_AUTH = '/v1/signAuth/%s';                                                    // 设置静默签署/撤销静默签署
+    public const CREATE_PERSONAL_ACCOUNT = '/v1/accounts/createByThirdPartyUserId';                // 创建个人账户
+    public const UPDATE_ACCOUNT_BY_THIRD_ID = '/v1/accounts/updateByThirdId?thirdPartyUserId=%s';  // 个人账户修改(按照第三方用户ID修改)
+    public const QUERY_ACCOUNT_BY_THIRD_ID = '/v1/accounts/getByThirdId';                          // 查询个人账户（按照第三方用户ID查询）
+    public const DEL_ACCOUNT_BY_THIRD_ID = '/v1/accounts/deleteByThirdId?thirdPartyUserId=%s';     // 注销个人账户（按照第三方用户ID查询）
+    public const SET_ACCOUNT_SIGN_PAW = '/v1/accounts/%s/setSignPwd';                              // 设置签署密码
+    public const ACCOUNT_BY_ID = '/v1/accounts/%s';                                                // 个人账户修改\查询个人账户\注销个人账户(按照账号ID)
+    public const ORG_BY_ID = '/v1/organizations/%s';                                               // 机构账户修改\查询机构账号\注销机构账号(按照账号ID)
+    public const CREATE_COMPANY_ACCOUNT = '/v1/organizations/createByThirdPartyUserId';            // 创建企业账户
+    public const UPDATE_ORG_BY_THIRD_ID = '/v1/organizations/updateByThirdId?thirdPartyUserId=%s'; // 机构账号修改（按照第三方机构ID修改）
+    public const QUERY_ORG_BY_THIRD_ID = '/v1/organizations/getByThirdId?thirdPartyUserId=%s';     // 查询机构账号（按照第三方机构ID查询）
+    public const DEL_ORG_BY_THIRD_ID = '/v1/organizations/deleteByThirdId?thirdPartyUserId=%s';    // 注销机构账号（按照账号ID注销）
+    public const SIGN_AUTH = '/v1/signAuth/%s';                                                    // 设置静默签署/撤销静默签署
 
     /**
      * 创建个人账号.
@@ -34,19 +34,17 @@ class Account extends AbstractAPI
      * @param  string  $mobile  手机号码
      * @param  string  $email  邮箱地址
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function createPersonalAccount($thirdPartyUserId, $mobile = null, $name = null, $idNumber = null, $email = null, $idType = 'CRED_PSN_CH_IDCARD')
+    public function createPersonalAccount(string $thirdPartyUserId, ?string $mobile = null, ?string $name = null, ?string $idNumber = null, ?string $email = null, string $idType = 'CRED_PSN_CH_IDCARD'): ?Collection
     {
         $params = [
             'thirdPartyUserId' => $thirdPartyUserId,
-            'name'             => $name,
-            'idType'           => $idType,
-            'idNumber'         => $idNumber,
-            'mobile'           => $mobile,
-            'email'            => $email,
+            'name' => $name,
+            'idType' => $idType,
+            'idNumber' => $idNumber,
+            'mobile' => $mobile,
+            'email' => $email,
         ];
 
         return $this->parseJSON('json', [self::CREATE_PERSONAL_ACCOUNT, $params]);
@@ -62,18 +60,16 @@ class Account extends AbstractAPI
      * @param  null  $idType  证件类型，默认为身份证
      * @param  null  $idNumber  证件号，该字段只有为空才允许修改
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function updatePersonalAccountById($accountId, $mobile = null, $idNumber = null, $name = null, $idType = null, $email = null)
+    public function updatePersonalAccountById(string $accountId, $mobile = null, $idNumber = null, $name = null, $idType = null, $email = null): ?Collection
     {
         $url = sprintf(self::ACCOUNT_BY_ID, $accountId);
         $params = [
-            'mobile'   => $mobile,
-            'email'    => $email,
-            'name'     => $name,
-            'idType'   => $idType,
+            'mobile' => $mobile,
+            'email' => $email,
+            'name' => $name,
+            'idType' => $idType,
             'idNumber' => $idNumber,
         ];
 
@@ -90,18 +86,16 @@ class Account extends AbstractAPI
      * @param  null  $idType  证件类型，默认为身份证
      * @param  null  $idNumber  证件号，该字段只有为空才允许修改
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function updatePersonalAccountByThirdId($thirdPartyUserId, $mobile = null, $idNumber = null, $name = null, $idType = null, $email = null)
+    public function updatePersonalAccountByThirdId(string $thirdPartyUserId, $mobile = null, $idNumber = null, $name = null, $idType = null, $email = null): ?Collection
     {
         $url = sprintf(self::UPDATE_ACCOUNT_BY_THIRD_ID, $thirdPartyUserId);
         $params = [
-            'mobile'   => $mobile,
-            'email'    => $email,
-            'name'     => $name,
-            'idType'   => $idType,
+            'mobile' => $mobile,
+            'email' => $email,
+            'name' => $name,
+            'idType' => $idType,
             'idNumber' => $idNumber,
         ];
 
@@ -113,11 +107,9 @@ class Account extends AbstractAPI
      *
      * @param  string  $accountId  个人账号id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function queryPersonalAccountByAccountId($accountId)
+    public function queryPersonalAccountByAccountId(string $accountId): ?Collection
     {
         $url = sprintf(self::ACCOUNT_BY_ID, $accountId);
 
@@ -129,11 +121,9 @@ class Account extends AbstractAPI
      *
      * @param  string  $thirdId  第三方平台的用户id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function queryPersonalAccountByThirdId($thirdId)
+    public function queryPersonalAccountByThirdId(string $thirdId): ?Collection
     {
         $params = [
             'thirdPartyUserId' => $thirdId,
@@ -147,11 +137,9 @@ class Account extends AbstractAPI
      *
      * @param  string  $accountId  个人账号id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function deletePersonalAccountById($accountId)
+    public function deletePersonalAccountById(string $accountId): ?Collection
     {
         $url = sprintf(self::ACCOUNT_BY_ID, $accountId);
 
@@ -163,11 +151,9 @@ class Account extends AbstractAPI
      *
      * @param  string  $thirdPartyUserId  第三方平台的用户id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function deletePersonalAccountByThirdId($thirdPartyUserId)
+    public function deletePersonalAccountByThirdId(string $thirdPartyUserId): ?Collection
     {
         $url = sprintf(self::DEL_ACCOUNT_BY_THIRD_ID, $thirdPartyUserId);
 
@@ -180,11 +166,9 @@ class Account extends AbstractAPI
      * @param  string  $accountId  用户id
      * @param  string  $password  MD5加密后的密文
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function setSignPwd($accountId, $password)
+    public function setSignPwd(string $accountId, string $password): ?Collection
     {
         $url = sprintf(self::SET_ACCOUNT_SIGN_PAW, $accountId);
         $params = [
@@ -205,20 +189,18 @@ class Account extends AbstractAPI
      * @param  null  $orgLegalIdNumber  string 企业法人证件号
      * @param  null  $orgLegalName  string 企业法人名称
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function createOrganizeAccount($thirdPartyUserId, $creatorAccountId, $name, $idNumber = null, $orgLegalIdNumber = null, $orgLegalName = null, $idType = 'CRED_ORG_USCC')
+    public function createOrganizeAccount(string $thirdPartyUserId, string $creatorAccountId, string $name, ?string $idNumber = null, $orgLegalIdNumber = null, $orgLegalName = null, string $idType = 'CRED_ORG_USCC'): ?Collection
     {
         $params = [
             'thirdPartyUserId' => $thirdPartyUserId,
-            'creator'          => $creatorAccountId,
-            'name'             => $name,
-            'idType'           => $idType,
-            'idNumber'         => $idNumber,
+            'creator' => $creatorAccountId,
+            'name' => $name,
+            'idType' => $idType,
+            'idNumber' => $idNumber,
             'orgLegalIdNumber' => $orgLegalIdNumber,
-            'orgLegalName'     => $orgLegalName,
+            'orgLegalName' => $orgLegalName,
         ];
 
         return $this->parseJSON('json', [self::CREATE_COMPANY_ACCOUNT, $params]);
@@ -234,19 +216,17 @@ class Account extends AbstractAPI
      * @param  null  $orgLegalIdNumber  企业法人证件号
      * @param  null  $orgLegalName  企业法人名称
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function updateOrganizeAccountById($orgId, $name = null, $idNumber = null, $orgLegalIdNumber = null, $orgLegalName = null, $idType = null)
+    public function updateOrganizeAccountById(string $orgId, $name = null, $idNumber = null, $orgLegalIdNumber = null, $orgLegalName = null, $idType = null): ?Collection
     {
         $url = sprintf(self::ORG_BY_ID, $orgId);
         $params = [
-            'name'             => $name,
-            'idType'           => $idType,
-            'idNumber'         => $idNumber,
+            'name' => $name,
+            'idType' => $idType,
+            'idNumber' => $idNumber,
             'orgLegalIdNumber' => $orgLegalIdNumber,
-            'orgLegalName'     => $orgLegalName,
+            'orgLegalName' => $orgLegalName,
         ];
 
         return $this->parseJSON('put', [$url, $params]);
@@ -260,16 +240,14 @@ class Account extends AbstractAPI
      * @param  null  $idType  证件类型，默认CRED_ORG_USCC
      * @param  null  $idNumber  证件号
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function updateOrganizeAccountByThirdId($thirdPartyUserId, $name = null, $idNumber = null, $idType = null)
+    public function updateOrganizeAccountByThirdId(string $thirdPartyUserId, $name = null, $idNumber = null, $idType = null): ?Collection
     {
         $url = sprintf(self::UPDATE_ORG_BY_THIRD_ID, $thirdPartyUserId);
         $params = [
-            'name'     => $name,
-            'idType'   => $idType,
+            'name' => $name,
+            'idType' => $idType,
             'idNumber' => $idNumber,
         ];
 
@@ -281,11 +259,9 @@ class Account extends AbstractAPI
      *
      * @param  string  $orgId  机构账号id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function queryOrganizeAccountByOrgId($orgId)
+    public function queryOrganizeAccountByOrgId(string $orgId): ?Collection
     {
         $url = sprintf(self::ORG_BY_ID, $orgId);
 
@@ -297,11 +273,9 @@ class Account extends AbstractAPI
      *
      * @param  string  $thirdPartyUserId  第三方平台机构id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function queryOrganizeAccountByThirdId($thirdPartyUserId)
+    public function queryOrganizeAccountByThirdId(string $thirdPartyUserId): ?Collection
     {
         $url = sprintf(self::QUERY_ORG_BY_THIRD_ID, $thirdPartyUserId);
 
@@ -313,11 +287,9 @@ class Account extends AbstractAPI
      *
      * @param  string  $orgId  机构账号id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function deleteOrganizeAccountByOrgId($orgId)
+    public function deleteOrganizeAccountByOrgId(string $orgId): ?Collection
     {
         $url = sprintf(self::ORG_BY_ID, $orgId);
 
@@ -329,11 +301,9 @@ class Account extends AbstractAPI
      *
      * @param  string  $thirdPartyUserId  第三方平台的机构id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function deleteOrganizeAccountByThirdId($thirdPartyUserId)
+    public function deleteOrganizeAccountByThirdId(string $thirdPartyUserId): ?Collection
     {
         $url = sprintf(self::DEL_ORG_BY_THIRD_ID, $thirdPartyUserId);
 
@@ -346,11 +316,9 @@ class Account extends AbstractAPI
      * @param  string  $accountId  授权人id，即个人账号id或机构账号id
      * @param  null  $deadline
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function setSignAuth($accountId, $deadline = null)
+    public function setSignAuth(string $accountId, $deadline = null): ?Collection
     {
         $url = sprintf(self::SIGN_AUTH, $accountId);
 
@@ -366,11 +334,9 @@ class Account extends AbstractAPI
      *
      * @param  string  $accountId  授权人id，即个人账号id或机构账号id
      *
-     * @return Collection|null
-     *
      * @throws HttpException
      */
-    public function deleteSignAuth($accountId)
+    public function deleteSignAuth(string $accountId): ?Collection
     {
         $url = sprintf(self::SIGN_AUTH, $accountId);
 
