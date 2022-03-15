@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign\Core;
 
@@ -73,7 +73,7 @@ class AccessToken
         $token = $http->parseJSON($http->get(self::API_TOKEN_GET, $params));
 
         if (empty($token['data'][$this->tokenJsonKey])) {
-            throw new HttpException('Request AccessToken fail. response: '.json_encode($token, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Request AccessToken fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
         }
 
         return $token;
@@ -123,7 +123,7 @@ class AccessToken
     protected function getCacheKey()
     {
         if (is_null($this->cacheKey)) {
-            return $this->prefix.$this->appId;
+            return $this->prefix . $this->appId;
         }
 
         return $this->cacheKey;

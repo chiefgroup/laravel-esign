@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign\File;
 
@@ -47,7 +47,7 @@ class File extends AbstractAPI
     }
 
     /**
-     * 通过上传方式创建文件 && 上传文件
+     * 通过上传方式创建文件 && 上传文件.
      *
      * @param  string  $contentMd5  先计算文件md5值，在对该md5值进行base64编码
      * @param  string  $contentType  目标文件的MIME类型，支持：（1）application/octet-stream（2）application/pdf
@@ -94,7 +94,7 @@ class File extends AbstractAPI
     }
 
     /**
-     * 通过上传方式创建模板 && 上传文件
+     * 通过上传方式创建模板 && 上传文件.
      * @param  string  $contentMd5
      * @param  string  $fileName
      * @param  string  $contentType
@@ -114,7 +114,7 @@ class File extends AbstractAPI
     }
 
     /**
-     * 上传文件
+     * 上传文件.
      * @param  string  $uploadUrls
      * @param  string  $filePath
      * @param  string  $contentMd5
@@ -125,8 +125,8 @@ class File extends AbstractAPI
         $fileContent = file_get_contents($filePath);
 
         $headers = [
-            'Content-Type:'.$contentType,
-            'Content-Md5:'.$contentMd5
+            'Content-Type:' . $contentType,
+            'Content-Md5:' . $contentMd5,
         ];
 
         $this->httpPut($uploadUrls, $fileContent, $headers);
@@ -136,7 +136,7 @@ class File extends AbstractAPI
      *  获取文件的Content-MD5
      *  原理：
      *  1.先计算MD5加密的二进制数组（128位）
-     *  2.再对这个二进制进行base64编码（而不是对32位字符串编码）
+     *  2.再对这个二进制进行base64编码（而不是对32位字符串编码）.
      *
      * @param $filePath
      * @return string

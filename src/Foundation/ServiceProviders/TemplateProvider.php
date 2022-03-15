@@ -1,12 +1,12 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign\Foundation\ServiceProviders;
 
-use QF\LaravelEsign\Template;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use QF\LaravelEsign\Template;
 
 class TemplateProvider implements ServiceProviderInterface
 {

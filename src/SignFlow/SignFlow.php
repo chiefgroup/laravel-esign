@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign\SignFlow;
 
@@ -92,7 +92,7 @@ class SignFlow extends AbstractAPI
                     'fileId'       => $fileId,
                     'encryption'   => $encryption,
                     'fileName'     => $fileName,
-                    'filePassword' => $filePassword
+                    'filePassword' => $filePassword,
                 ],
             ],
         ];
@@ -114,7 +114,7 @@ class SignFlow extends AbstractAPI
     {
         $url = sprintf(self::PLATFORM_SIGN_ADD, $flowId);
         $params = [
-            'signfields' => $signFields
+            'signfields' => $signFields,
         ];
 
         return $this->parseJSON('json', [$url, $params]);
@@ -134,7 +134,7 @@ class SignFlow extends AbstractAPI
     {
         $url = sprintf(self::AUTO_SIGN_ADD, $flowId);
         $params = [
-            'signfields' => $signFields
+            'signfields' => $signFields,
         ];
 
         return $this->parseJSON('json', [$url, $params]);
@@ -154,7 +154,7 @@ class SignFlow extends AbstractAPI
     {
         $url = sprintf(self::HAND_SIGN_ADD, $flowId);
         $params = [
-            'signfields' => $signFields
+            'signfields' => $signFields,
         ];
 
         return $this->parseJSON('json', [$url, $params]);
@@ -251,7 +251,7 @@ class SignFlow extends AbstractAPI
     }
 
     /**
-     * 签署流程结果查询
+     * 签署流程结果查询.
      *
      * @param  string  $flowId  流程id
      * @return Collection|null

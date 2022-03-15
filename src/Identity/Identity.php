@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign\Identity;
 
@@ -10,7 +10,6 @@ use QF\LaravelEsign\Support\Collection;
 
 class Identity extends AbstractAPI
 {
-
     // 认证Api
     const ORG_IDENTITY_URL = '/v2/identity/auth/web/%s/orgIdentityUrl';                                    // 获取组织机构实名认证地址
     const CHECK_BANK_CARD_4FACTORS = '/v2/identity/auth/api/individual/bankCard4Factors';                  // 银行卡4要素核身校验

@@ -1,15 +1,15 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign\Core;
 
 use GuzzleHttp\Middleware;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use QF\LaravelEsign\Exceptions\HttpException;
 use QF\LaravelEsign\Support\Collection;
 use QF\LaravelEsign\Support\Log;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractAPI
 {
@@ -129,7 +129,7 @@ abstract class AbstractAPI
     }
 
     /**
-     * Put upload File
+     * Put upload File.
      * @param string $uploadUrls
      * @param string $fileContent
      * @param array $headers
@@ -142,8 +142,8 @@ abstract class AbstractAPI
         $status = $http->sendHttpPut($uploadUrls, $fileContent, $headers);
 
         if ($status != self::SUCCESS_STATUS) {
-            Log::debug('Request Upload File headers:'.json_encode($headers));
-            Log::debug('Request Upload File url:'.$uploadUrls);
+            Log::debug('Request Upload File headers:' . json_encode($headers));
+            Log::debug('Request Upload File url:' . $uploadUrls);
             throw new HttpException('文件上传失败！', 10001);
         }
 
@@ -193,8 +193,8 @@ abstract class AbstractAPI
     protected function logMiddleware()
     {
         return Middleware::tap(function (RequestInterface $request, $options) {
-            Log::debug("Request: {$request->getMethod()} {$request->getUri()} ".json_encode($options));
-            Log::debug('Request headers:'.json_encode($request->getHeaders()));
+            Log::debug("Request: {$request->getMethod()} {$request->getUri()} " . json_encode($options));
+            Log::debug('Request headers:' . json_encode($request->getHeaders()));
         });
     }
 

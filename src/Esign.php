@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign;
 
@@ -10,11 +10,11 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Pimple\Container;
 use QF\LaravelEsign\Core\AbstractAPI;
 use QF\LaravelEsign\Core\AccessToken;
 use QF\LaravelEsign\Core\Http;
 use QF\LaravelEsign\Support\Log;
-use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -64,7 +64,7 @@ class Esign extends Container
 
         $keys = ['appId', 'appKey'];
         foreach ($keys as $key) {
-            !$config->has($key) || $config[$key] = '***'.substr($config[$key], -5);
+            !$config->has($key) || $config[$key] = '***' . substr($config[$key], -5);
         }
 
         Log::debug('Current config:', $config->toArray());
@@ -145,11 +145,13 @@ class Esign extends Container
             $logger->pushHandler($this['config']['log.handler']);
         } elseif ($logFile = $this['config']['log.file']) {
             try {
-                $logger->pushHandler(new StreamHandler(
-                        $logFile,
-                        $this['config']->get('log.level', Logger::WARNING),
-                        true,
-                        $this['config']->get('log.permission', null))
+                $logger->pushHandler(
+                    new StreamHandler(
+                    $logFile,
+                    $this['config']->get('log.level', Logger::WARNING),
+                    true,
+                    $this['config']->get('log.permission', null)
+                )
                 );
             } catch (\Exception $e) {
             }

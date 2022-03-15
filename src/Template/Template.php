@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign\Template;
 
@@ -107,14 +107,14 @@ class Template extends AbstractAPI
             'width'           => $width,
             'type'            => $type,
             'data'            => $data,
-            'transparentFlag' => $transparentFlag
+            'transparentFlag' => $transparentFlag,
         ];
 
         return $this->parseJSON('json', [$url, $params]);
     }
 
     /**
-     * 设置个人默认印章
+     * 设置个人默认印章.
      *
      * @param  string  $accountId  用户id
      * @param  string  $sealId  印章id
@@ -129,7 +129,7 @@ class Template extends AbstractAPI
     }
 
     /**
-     * 设置机构默认印章
+     * 设置机构默认印章.
      *
      * @param  string  $orgId  用户id
      * @param  string  $sealId  印章id

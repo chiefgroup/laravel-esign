@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the chiefgroup/laravel-esign.
  *
@@ -27,6 +29,6 @@ return [
         'handler'    => null,
         'file'       => 'storage/logs/esign.log',
         'level'      => 100,
-        'permission' => null
-    ]
+        'permission' => null,
+    ],
 ];

@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign;
 
@@ -25,7 +25,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/config.php' => config_path('esign.php'),
+            __DIR__ . '/config.php' => config_path('esign.php'),
         ]);
     }
 }

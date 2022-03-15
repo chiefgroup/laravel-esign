@@ -1,14 +1,14 @@
 <?php
 
-
+declare(strict_types=1);
 
 namespace QF\LaravelEsign\Core;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
+use Psr\Http\Message\ResponseInterface;
 use QF\LaravelEsign\Exceptions\HttpException;
 use QF\LaravelEsign\Support\Log;
-use Psr\Http\Message\ResponseInterface;
 
 class Http
 {
@@ -266,7 +266,7 @@ class Http
         Log::debug('API response decoded:', compact('contents'));
 
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new HttpException('Failed to parse JSON: '.json_last_error_msg());
+            throw new HttpException('Failed to parse JSON: ' . json_last_error_msg());
         }
 
         return $contents;
@@ -293,7 +293,7 @@ class Http
     }
 
     /**
-     * upload File
+     * upload File.
      *
      * @param string $uploadUrls
      * @param array $headers
@@ -323,9 +323,10 @@ class Http
 
         if ($result === false) {
             $status = curl_errno($curl_handle);
-            $result = 'put file to oss - curl error :'.curl_error($curl_handle);
+            $result = 'put file to oss - curl error :' . curl_error($curl_handle);
         }
         curl_close($curl_handle);
+
         return $status;
     }
 }
