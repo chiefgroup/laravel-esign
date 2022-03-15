@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Foundation\ServiceProviders;
+namespace XNXK\LaravelEsign\Foundation\ServiceProviders;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use QF\LaravelEsign\Account;
+use XNXK\LaravelEsign\Account;
 
 class AccountProvider implements ServiceProviderInterface
 {

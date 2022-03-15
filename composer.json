@@ -1,6 +1,6 @@
 {
     "name": "xnxktech/laravel-esign",
-    "description": "Laravel ESign API v2",
+    "description": "Provide eSign (electronic contract signing) API for Laravel",
     "type": "library",
     "require": {
         "php": "^8.0",
@@ -21,16 +21,16 @@
         "phpunit/phpunit": "^9.0",
         "roave/security-advisories": "dev-latest"
     },
-    "license": "MIT",
+    "license": "Apache-2.0",
     "authors": [
         {
-            "name": "peng",
-            "email": "2512422541@qq.com"
+            "name": "YGNICE",
+            "email": "ygnice888@gmail.com"
         }
     ],
  	"autoload": {
         "psr-4": {
-            "QF\\LaravelEsign\\": "src/"
+            "XNXK\\LaravelEsign\\": "src/"
         }
     },
     "config": {
@@ -43,7 +43,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "QF\\LaravelEsign\\ServiceProvider"
+                "XNXK\\LaravelEsign\\ServiceProvider"
             ]
         }
     }

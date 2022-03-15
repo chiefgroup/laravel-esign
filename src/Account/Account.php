@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Account;
+namespace XNXK\LaravelEsign\Account;
 
-use QF\LaravelEsign\Core\AbstractAPI;
-use QF\LaravelEsign\Exceptions\HttpException;
-use QF\LaravelEsign\Support\Collection;
+use XNXK\LaravelEsign\Core\AbstractAPI;
+use XNXK\LaravelEsign\Exceptions\HttpException;
+use XNXK\LaravelEsign\Support\Collection;
 
 class Account extends AbstractAPI
 {

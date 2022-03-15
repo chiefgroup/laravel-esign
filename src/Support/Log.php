@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Support;
+namespace XNXK\LaravelEsign\Support;
 
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\NullHandler;

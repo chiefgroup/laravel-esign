@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\File;
+namespace XNXK\LaravelEsign\File;
 
-use QF\LaravelEsign\Core\AbstractAPI;
-use QF\LaravelEsign\Exceptions\HttpException;
-use QF\LaravelEsign\Support\Collection;
+use XNXK\LaravelEsign\Core\AbstractAPI;
+use XNXK\LaravelEsign\Exceptions\HttpException;
+use XNXK\LaravelEsign\Support\Collection;
 
 class File extends AbstractAPI
 {

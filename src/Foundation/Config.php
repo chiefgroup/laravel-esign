@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Foundation;
+namespace XNXK\LaravelEsign\Foundation;
 
-use QF\LaravelEsign\Support\Collection;
+use XNXK\LaravelEsign\Support\Collection;
 
 class Config extends Collection
 {

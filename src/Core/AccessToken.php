@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Core;
+namespace XNXK\LaravelEsign\Core;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
-use QF\LaravelEsign\Exceptions\HttpException;
+use XNXK\LaravelEsign\Exceptions\HttpException;
 
 class AccessToken
 {

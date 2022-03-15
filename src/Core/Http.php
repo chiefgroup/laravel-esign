@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Core;
+namespace XNXK\LaravelEsign\Core;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
-use QF\LaravelEsign\Exceptions\HttpException;
-use QF\LaravelEsign\Support\Log;
+use XNXK\LaravelEsign\Exceptions\HttpException;
+use XNXK\LaravelEsign\Support\Log;
 
 class Http
 {

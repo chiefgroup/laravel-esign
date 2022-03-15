@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Foundation\ServiceProviders;
+namespace XNXK\LaravelEsign\Foundation\ServiceProviders;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use QF\LaravelEsign\SignFlow;
+use XNXK\LaravelEsign\SignFlow;
 
 class SignFlowProvider implements ServiceProviderInterface
 {

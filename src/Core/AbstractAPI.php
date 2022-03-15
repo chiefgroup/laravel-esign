@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Core;
+namespace XNXK\LaravelEsign\Core;
 
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use QF\LaravelEsign\Exceptions\HttpException;
-use QF\LaravelEsign\Support\Collection;
-use QF\LaravelEsign\Support\Log;
+use XNXK\LaravelEsign\Exceptions\HttpException;
+use XNXK\LaravelEsign\Support\Collection;
+use XNXK\LaravelEsign\Support\Log;
 
 abstract class AbstractAPI
 {

@@ -1,4 +1,4 @@
-# chiefgroup-esign
+# laravel-esign
 
 # ![laravel-esign](https://socialify.git.ci/XNXKTech/laravel-esign/image?font=Bitter&language=1&logo=https://avatars.githubusercontent.com/u/94216091?s=200&v=4&owner=1&pattern=Circuit%20Board&theme=Light)
 
@@ -25,7 +25,7 @@ $ composer require xnxktech/laravel-esign
 generate config file
 
 ```bash
-$ php artisan vendor:publish --provider="QF\LaravelEsign\ServiceProvider"
+$ php artisan vendor:publish --provider="XNXK\LaravelEsign\ServiceProvider"
 ```
 
 ## Usage

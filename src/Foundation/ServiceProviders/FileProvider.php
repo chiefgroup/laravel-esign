@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Foundation\ServiceProviders;
+namespace XNXK\LaravelEsign\Foundation\ServiceProviders;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use QF\LaravelEsign\File;
+use XNXK\LaravelEsign\File;
 
 class FileProvider implements ServiceProviderInterface
 {

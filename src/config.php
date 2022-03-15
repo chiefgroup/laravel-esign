@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the chiefgroup/laravel-esign.
- *
- * (c) peng <2512422541@qq.com>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 return [
     'debug'      => true,
     'appId'      => env('ESIGN_APPID', 'your-app-id'),                            // APP ID

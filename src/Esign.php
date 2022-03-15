@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign;
+namespace XNXK\LaravelEsign;
 
 use Doctrine\Common\Cache\Cache as CacheInterface;
 use Doctrine\Common\Cache\FilesystemCache;
@@ -11,21 +11,21 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Pimple\Container;
-use QF\LaravelEsign\Core\AbstractAPI;
-use QF\LaravelEsign\Core\AccessToken;
-use QF\LaravelEsign\Core\Http;
-use QF\LaravelEsign\Support\Log;
+use XNXK\LaravelEsign\Core\AbstractAPI;
+use XNXK\LaravelEsign\Core\AccessToken;
+use XNXK\LaravelEsign\Core\Http;
+use XNXK\LaravelEsign\Support\Log;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class Esign.
  *
- * @property \QF\LaravelEsign\Core\AccessToken $access_token
- * @property \QF\LaravelEsign\Account\Account $account
- * @property \QF\LaravelEsign\File\File $file
- * @property \QF\LaravelEsign\SignFlow\SignFlow $signflow
- * @property \QF\LaravelEsign\Template\Template $template
- * @property \QF\LaravelEsign\Identity\Identity $identity
+ * @property \XNXK\LaravelEsign\Core\AccessToken $access_token
+ * @property \XNXK\LaravelEsign\Account\Account $account
+ * @property \XNXK\LaravelEsign\File\File $file
+ * @property \XNXK\LaravelEsign\SignFlow\SignFlow $signflow
+ * @property \XNXK\LaravelEsign\Template\Template $template
+ * @property \XNXK\LaravelEsign\Identity\Identity $identity
  */
 class Esign extends Container
 {

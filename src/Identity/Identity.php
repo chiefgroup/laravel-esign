@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace QF\LaravelEsign\Identity;
+namespace XNXK\LaravelEsign\Identity;
 
-use QF\LaravelEsign\Core\AbstractAPI;
-use QF\LaravelEsign\Exceptions\HttpException;
-use QF\LaravelEsign\Support\Collection;
+use XNXK\LaravelEsign\Core\AbstractAPI;
+use XNXK\LaravelEsign\Exceptions\HttpException;
+use XNXK\LaravelEsign\Support\Collection;
 
 class Identity extends AbstractAPI
 {
