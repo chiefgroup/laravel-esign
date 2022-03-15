@@ -1,18 +1,14 @@
-# laravel-esign
-
-# ![laravel-esign](https://socialify.git.ci/XNXKTech/laravel-esign/image?font=Bitter&language=1&logo=https://avatars.githubusercontent.com/u/94216091?s=200&v=4&owner=1&pattern=Circuit%20Board&theme=Light)
+# ![Laravel-Esign](https://socialify.git.ci/XNXKTech/laravel-esign/image?font=Bitter&language=1&logo=https://avatars.githubusercontent.com/u/94216091?s=200&v=4&owner=1&pattern=Circuit%20Board&theme=Light)
 
 [![Tests](https://github.com/XNXKTech/laravel-esign/actions/workflows/tests.yml/badge.svg)](https://github.com/XNXKTech/laravel-esign/actions/workflows/tests.yml)
-![PHP from Packagist](https://img.shields.io/packagist/php-v/xnxk/laravel-esign?style=flat-square)
-![Packagist Version](https://img.shields.io/packagist/v/xnxk/laravel-esign?style=flat-square)
+![PHP from Packagist](https://img.shields.io/packagist/php-v/xnxktech/laravel-esign?style=flat-square)
+![Packagist Version](https://img.shields.io/packagist/v/xnxktech/laravel-esign?style=flat-square)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/xnxktech/laravel-esign?style=flat-square)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/xnxktech/laravel-esign/main?style=flat-square)
 ![GitHub Release Date](https://img.shields.io/github/release-date/xnxktech/laravel-esign?style=flat-square)
 [![LICENSE](https://img.shields.io/badge/License-Anti%20996-blue.svg?style=flat-square)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 [![LICENSE](https://img.shields.io/badge/License-Apache--2.0-green.svg?style=flat-square)](LICENSE-APACHE)
 [![996.icu](https://img.shields.io/badge/Link-996.icu-red.svg?style=flat-square)](https://996.icu)
-
-
 
 ## Installation
 
