@@ -1,9 +1,9 @@
 {
-    "name": "chiefgroup/laravel-esign",
-    "description": "QF Laravel ESign API v2",
+    "name": "xnxktech/laravel-esign",
+    "description": "Laravel ESign API v2",
     "type": "library",
     "require": {
-        "php": ">=7.2",
+        "php": "^8.0",
         "ext-openssl": "*",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^6.5",
@@ -12,6 +12,14 @@
         "pimple/pimple": "^3.0",
         "symfony/http-foundation": "^4.0 || ^5.0",
         "symfony/psr-http-message-bridge": "^1.0 || ^2.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "nunomaduro/phpinsights": "^2.0",
+        "pestphp/pest": "^1.21",
+        "phpunit/phpunit": "^9.0",
+        "roave/security-advisories": "dev-latest"
     },
     "license": "MIT",
     "authors": [
@@ -25,12 +33,12 @@
             "QF\\LaravelEsign\\": "src/"
         }
     },
-    "require-dev": {
-    	"mockery/mockery": "^1.0",
-        "phpunit/phpunit": "^8.0"
-    },
     "config": {
-    	"sort-packages": true
+    	"sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "laravel": {

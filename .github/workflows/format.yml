@@ -1,0 +1,10 @@
+name: format
+
+on: pull_request
+
+jobs:
+  php-cs-fixer:
+    name: PHP Code Style
+    uses: XNXKTech/workflows/.github/workflows/php-format.yml@main
+    secrets:
+      CI_PAT: ${{ secrets.CI_PAT }}
