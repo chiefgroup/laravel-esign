@@ -8,4 +8,4 @@ jobs:
     uses: XNXKTech/workflows/.github/workflows/laravel-insights.yml@main
     with:
       versions: "[\"8.0\", \"8.1\"]"
-      stability: "[\"prefer-lowest\", \"prefer-stable\"]"
+      stability: "[\"prefer-stable\"]"

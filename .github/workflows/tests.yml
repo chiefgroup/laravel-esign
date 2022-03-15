@@ -7,6 +7,5 @@ jobs:
     name: PHP Test
     uses: XNXKTech/workflows/.github/workflows/php-test.yml@main
     with:
-      operating-system: "[ \"ubuntu-latest\", \"windows-latest\", \"macOS-latest\" ]"
       versions: "[\"8.0\", \"8.1\"]"
-      stability: "[\"prefer-lowest\", \"prefer-stable\"]"
+      stability: "[\"prefer-stable\"]"
