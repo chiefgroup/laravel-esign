@@ -14,9 +14,9 @@
         "symfony/psr-http-message-bridge": "^1.0 || ^2.0"
     },
     "require-dev": {
-        "mockery/mockery": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.0",
-        "nunomaduro/phpinsights": "^2.0",
+        "mockery/mockery": "^1.0",
+        "nunomaduro/phpinsights": "^2.1",
         "pestphp/pest": "^1.21",
         "phpunit/phpunit": "^9.0",
         "roave/security-advisories": "dev-latest"
