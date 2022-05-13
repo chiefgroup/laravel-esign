@@ -119,6 +119,15 @@ class Http
         return $this->request($url, 'DELETE', [$key => $options]);
     }
 
+    public function putJson($url, $options = [], $encodeOption = JSON_UNESCAPED_UNICODE)
+    {
+        is_array($options) && $options = json_encode($options, $encodeOption);
+
+        $data = ['body' => $options, 'headers' => ['content-type' => 'application/json']];
+
+        return $this->request($url, 'PUT', $data);
+    }
+
     /**
      * JSON request.
      *

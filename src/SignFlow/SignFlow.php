@@ -244,16 +244,17 @@ class SignFlow extends AbstractAPI
      * 签署流程撤销.
      *
      * @param  string  $flowId  流程id
+     * @param string $operatorId 发起者账户ID，不传默认由对接平台发起
      *
      * @return Collection|null
      *
      * @throws HttpException
      */
-    public function revoke($flowId)
+    public function revoke($flowId, $operatorId = null)
     {
         $url = sprintf(self::SIGN_REVOKE, $flowId);
 
-        return $this->parseJSON('put', [$url]);
+        return $this->parseJSON('putJson', [$url, ['operatorId' => $operatorId]]);
     }
 
     /**
