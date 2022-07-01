@@ -255,7 +255,7 @@ class Account extends AbstractAPI
             'orgLegalName'     => $orgLegalName,
         ];
 
-        return $this->parseJSON('put', [$url, $params]);
+        return $this->parseJSON('putJson', [$url, $params]);
     }
 
     /**
@@ -279,7 +279,7 @@ class Account extends AbstractAPI
             'idNumber' => $idNumber,
         ];
 
-        return $this->parseJSON('put', [$url, $params]);
+        return $this->parseJSON('json', [$url, $params]);
     }
 
     /**
