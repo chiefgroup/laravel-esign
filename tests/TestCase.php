@@ -7,19 +7,30 @@
 
 namespace QF\LaravelEsign\Tests;
 
-use QF\LaravelEsign\ServiceProvider;
+use PHPUnit\Framework\TestCase as BaseTestCase;
+use QF\LaravelEsign\Core\AccessToken;
+use QF\LaravelEsign\Core\Http;
+use QF\LaravelEsign\File\File;
 
-abstract class TestCase extends \Orchestra\Testbench\TestCase
+class TestCase extends BaseTestCase
 {
-    protected function getPackageProviders($app): array
+    public function mockClient()
     {
-        return [ServiceProvider::class];
+        $accessToken = \Mockery::mock(AccessToken::class);
+        $accessToken->shouldReceive('getAppId')->andReturn('app-id');
+        $accessToken->shouldReceive('getToken')->andReturn('token');
+
+        Http::setDefaultOptions(['timeout' => 5.0, 'base_uri' => 'https://smlopenapi.esign.cn']);
+        $methods = 'downloadFile';
+        $file = \Mockery::mock(File::class . "[{$methods}]", [$accessToken])->shouldAllowMockingProtectedMethods();
+        $file->allows()->registerHttpMiddlewares()->andReturnNull();
+
+        return $file;
     }
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         \Mockery::close();
     }
+
 }
