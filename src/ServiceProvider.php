@@ -10,9 +10,11 @@
 
 namespace QF\LaravelEsign;
 
-class ServiceProvider extends \Illuminate\Support\ServiceProvider
+use Illuminate\Contracts\Support\DeferrableProvider;
+use \Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+
+class ServiceProvider extends LaravelServiceProvider implements DeferrableProvider
 {
-    protected $defer = true;
 
     public function register()
     {
@@ -32,6 +34,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->publishes([
             __DIR__.'/config.php' => config_path('esign.php'),
-        ]);
+        ], 'esign');
     }
 }
