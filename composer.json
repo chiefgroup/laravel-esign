@@ -43,7 +43,7 @@
             "providers": [
                 "QF\\LaravelEsign\\ServiceProvider"
             ],
-            "facades": {
+            "aliases": {
                 "Esign": "QF\\LaravelEsign\\EsignFacade"
             }
         }
