@@ -1,6 +1,6 @@
 <?php
 
-namespace QF\LaravelEsign\Account;
+namespace QF\LaravelEsign\Template;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -9,7 +9,7 @@ class ServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-        $app['account'] = function ($app) {
+        $app['template'] = function ($app) {
             return new Client($app);
         };
     }

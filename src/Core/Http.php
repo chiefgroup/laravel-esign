@@ -22,7 +22,7 @@ class Http
      * Used to identify handler defined by client code
      * Maybe useful in the future.
      */
-    const USER_DEFINED_HANDLER = 'userDefined';
+    public const USER_DEFINED_HANDLER = 'userDefined';
 
     /**
      * Http client.
@@ -168,7 +168,7 @@ class Http
 
         foreach ($files as $name => $path) {
             $multipart[] = [
-                'name'     => $name,
+                'name' => $name,
                 'contents' => fopen($path, 'r'),
             ];
         }
@@ -250,10 +250,10 @@ class Http
         $response = $this->getClient()->request($method, $url, $options);
 
         Log::debug('API response:', [
-            'Status'  => $response->getStatusCode(),
-            'Reason'  => $response->getReasonPhrase(),
+            'Status' => $response->getStatusCode(),
+            'Reason' => $response->getReasonPhrase(),
             'Headers' => $response->getHeaders(),
-            'Body'    => strval($response->getBody()),
+            'Body' => strval($response->getBody()),
         ]);
 
         return $response;

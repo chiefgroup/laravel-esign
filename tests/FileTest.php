@@ -2,20 +2,26 @@
 
 namespace QF\LaravelEsign\Tests;
 
-use QF\LaravelEsign\Support\Collection;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use QF\LaravelEsign\File\Client;
 
 class FileTest extends TestCase
 {
-    public function testFoo()
+    public function testGetUploadUrl()
     {
-        $client = $this->mockClient()->makePartial();
+        $client = $this->mockApiClient(Client::class, ['getFileBase64Md5']);
 
-        $url = '';
-        $client->expects()->parseJSON('get', [$url])->andReturn(new Collection(['test']));
+        $fileMd5 = 'foo';
+        $fileName = 'bar.pdf';
+        $fileSize = 10;
 
-        $this->assertInstanceOf(StreamedResponse::class,  $client->downloadFile('fileid'));
+        $client->expects()->httpPostJson('/v1/files/getUploadUrl', [
+            'contentMd5' => $fileMd5,
+            'fileName' => $fileName,
+            'fileSize' => $fileSize,
+            'contentType' => 'application/pdf',
+            'convert2Pdf' => false,
+        ])->andReturn('mock-result');
 
-        $this->assertTrue(true);
+        $this->assertSame('mock-result', $client->getUploadUrl($fileMd5, $fileName, $fileSize));
     }
 }

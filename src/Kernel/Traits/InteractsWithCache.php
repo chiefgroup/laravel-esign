@@ -2,7 +2,6 @@
 
 namespace QF\LaravelEsign\Kernel\Traits;
 
-
 use Pimple\Container;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;

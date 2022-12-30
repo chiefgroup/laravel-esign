@@ -17,14 +17,14 @@ use QF\LaravelEsign\Support\Collection;
 class File extends AbstractAPI
 {
     // Api URL
-    const CREATE_SIGN_DOCUMENT = '/v1/files/getUploadUrl';                          // 通过上传方式创建文件
-    const CREATE_UPLOAD_URL = '/v1/docTemplates/createByUploadUrl';                 // 通过上传方式创建模板
-    const ADD_DOC_TEMPLATES = '/v1/docTemplates/%s/components';                     // 通过模板添加输入项组件
-    const DEL_DOC_TEMPLATES = '/v1/docTemplates/%s/components/%s';                  // 删除输入项组件
-    const QUERY_DOC_TEMPLATES = '/v1/docTemplates/%s';                              // 查询模板详情/下载模板
-    const CREATE_TEMPLATE = '/v1/files/createByTemplate';                           // 通过模板创建文件
-    const QUERY_FILE = '/v1/files/%s';                                              // 查询文件详情/下载文件
-    const ADD_WATERMARK = '/v1/files/batchAddWatermark';                            // 文件添加数字水印
+    public const CREATE_SIGN_DOCUMENT = '/v1/files/getUploadUrl';                          // 通过上传方式创建文件
+    public const CREATE_UPLOAD_URL = '/v1/docTemplates/createByUploadUrl';                 // 通过上传方式创建模板
+    public const ADD_DOC_TEMPLATES = '/v1/docTemplates/%s/components';                     // 通过模板添加输入项组件
+    public const DEL_DOC_TEMPLATES = '/v1/docTemplates/%s/components/%s';                  // 删除输入项组件
+    public const QUERY_DOC_TEMPLATES = '/v1/docTemplates/%s';                              // 查询模板详情/下载模板
+    public const CREATE_TEMPLATE = '/v1/files/createByTemplate';                           // 通过模板创建文件
+    public const QUERY_FILE = '/v1/files/%s';                                              // 查询文件详情/下载文件
+    public const ADD_WATERMARK = '/v1/files/batchAddWatermark';                            // 文件添加数字水印
 
     /**
      * 通过上传方式创建文件.
@@ -42,11 +42,11 @@ class File extends AbstractAPI
     public function getUploadFileUrl($contentMd5, $fileName, $fileSize, $contentType = 'application/pdf', $convert2Pdf = false)
     {
         $params = [
-            'contentMd5'  => $contentMd5,
+            'contentMd5' => $contentMd5,
             'contentType' => $contentType,
             'convert2Pdf' => $convert2Pdf,
-            'fileName'    => $fileName,
-            'fileSize'    => $fileSize,
+            'fileName' => $fileName,
+            'fileSize' => $fileSize,
         ];
 
         return $this->parseJSON('json', [self::CREATE_SIGN_DOCUMENT, $params]);
@@ -90,10 +90,10 @@ class File extends AbstractAPI
     public function createByUploadUrl($contentMd5, $fileName, $contentType = 'application/pdf', $convert2Pdf = false)
     {
         $params = [
-            'contentMd5'  => $contentMd5,
+            'contentMd5' => $contentMd5,
             'contentType' => $contentType,
             'convert2Pdf' => $convert2Pdf,
-            'fileName'    => $fileName,
+            'fileName' => $fileName,
         ];
 
         return $this->parseJSON('json', [self::CREATE_UPLOAD_URL, $params]);
@@ -199,24 +199,24 @@ class File extends AbstractAPI
 
         $params = [
             'structComponent' => [
-                'id'      => $id,
-                'key'     => $key,
-                'type'    => $type,
+                'id' => $id,
+                'key' => $key,
+                'type' => $type,
                 'context' => [
-                    'label'    => $label,
+                    'label' => $label,
                     'required' => $required,
-                    'limit'    => $limit,
-                    'style'    => [
-                        'width'     => $width,
-                        'height'    => $height,
-                        'font'      => $font,
-                        'fontSize'  => $fontSize,
+                    'limit' => $limit,
+                    'style' => [
+                        'width' => $width,
+                        'height' => $height,
+                        'font' => $font,
+                        'fontSize' => $fontSize,
                         'textColor' => $textColor,
                     ],
-                    'pos'      => [
+                    'pos' => [
                         'page' => $page,
-                        'x'    => $x,
-                        'y'    => $y,
+                        'x' => $x,
+                        'y' => $y,
                     ],
                 ],
             ],
@@ -272,8 +272,8 @@ class File extends AbstractAPI
     public function createByTemplate($templateId, $name, $simpleFormFields)
     {
         $params = [
-            'name'             => $name,
-            'templateId'       => $templateId,
+            'name' => $name,
+            'templateId' => $templateId,
             'simpleFormFields' => $simpleFormFields,
         ];
 
@@ -310,8 +310,8 @@ class File extends AbstractAPI
     public function batchAddWatermark($files, $notifyUrl = null, $thirdOrderNo = null)
     {
         $params = [
-            'files'        => $files,
-            'notifyUrl'    => $notifyUrl,
+            'files' => $files,
+            'notifyUrl' => $notifyUrl,
             'thirdOrderNo' => $thirdOrderNo,
         ];
 

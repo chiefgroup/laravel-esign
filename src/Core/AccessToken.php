@@ -31,7 +31,7 @@ class AccessToken
 
     protected $prefix = 'esign.common.access_token.';
 
-    const API_TOKEN_GET = '/v1/oauth2/access_token';
+    public const API_TOKEN_GET = '/v1/oauth2/access_token';
 
     public function __construct($appId, $secret, Cache $cache = null)
     {
@@ -70,8 +70,8 @@ class AccessToken
     public function getTokenFromServer()
     {
         $params = [
-            'appId'     => $this->appId,
-            'secret'    => $this->secret,
+            'appId' => $this->appId,
+            'secret' => $this->secret,
             'grantType' => 'client_credentials',
         ];
 

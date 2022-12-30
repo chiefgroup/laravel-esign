@@ -17,15 +17,15 @@ use QF\LaravelEsign\Support\Collection;
 class Template extends AbstractAPI
 {
     // API URL
-    const CREATE_PERSONAL_TEMPLATE = '/v1/accounts/%s/seals/personaltemplate';          // 创建个人模板印章
-    const CREATE_OFFICIAL_TEMPLATE = '/v1/organizations/%s/seals/officialtemplate';     // 创建机构模板印章
-    const CREATE_IMAGE_TEMPLATE = '/v1/accounts/%s/seals/image';                        // 创建个人/机构图片印章
-    const SET_ACCOUNT_DEFAULT_TEMPLATE = '/v1/accounts/%s/seals/%s/setDefault';         // 设置个人默认印章
-    const SET_ORG_DEFAULT_TEMPLATE = '/v1/organizations/%s/seals/%s/setDefault';        // 设置机构默认印章
-    const QUERY_ACCOUNT_TEMPLATE = '/v1/accounts/%s/seals';                             // 查询个人印章
-    const QUERY_ORG_TEMPLATE = '/v1/organizations/%s/seals';                            // 查询机构印章
-    const DEL_ACCOUNT_TEMPLATE = '/v1/accounts/%s/seals/%s';                            // 删除个人印章
-    const DEL_ORG_TEMPLATE = '/v1/organizations/%s/seals/%s';                           // 删除机构印章
+    public const CREATE_PERSONAL_TEMPLATE = '/v1/accounts/%s/seals/personaltemplate';          // 创建个人模板印章
+    public const CREATE_OFFICIAL_TEMPLATE = '/v1/organizations/%s/seals/officialtemplate';     // 创建机构模板印章
+    public const CREATE_IMAGE_TEMPLATE = '/v1/accounts/%s/seals/image';                        // 创建个人/机构图片印章
+    public const SET_ACCOUNT_DEFAULT_TEMPLATE = '/v1/accounts/%s/seals/%s/setDefault';         // 设置个人默认印章
+    public const SET_ORG_DEFAULT_TEMPLATE = '/v1/organizations/%s/seals/%s/setDefault';        // 设置机构默认印章
+    public const QUERY_ACCOUNT_TEMPLATE = '/v1/accounts/%s/seals';                             // 查询个人印章
+    public const QUERY_ORG_TEMPLATE = '/v1/organizations/%s/seals';                            // 查询机构印章
+    public const DEL_ACCOUNT_TEMPLATE = '/v1/accounts/%s/seals/%s';                            // 删除个人印章
+    public const DEL_ORG_TEMPLATE = '/v1/organizations/%s/seals/%s';                           // 删除机构印章
 
     /**
      * 创建个人模板印章.
@@ -45,11 +45,11 @@ class Template extends AbstractAPI
     {
         $url = sprintf(self::CREATE_PERSONAL_TEMPLATE, $accountId);
         $params = [
-            'alias'  => $alias,
-            'color'  => $color,
+            'alias' => $alias,
+            'color' => $color,
             'height' => $height,
-            'width'  => $width,
-            'type'   => $type,
+            'width' => $width,
+            'type' => $type,
         ];
 
         return $this->parseJSON('json', [$url, $params]);
@@ -76,13 +76,13 @@ class Template extends AbstractAPI
     {
         $url = sprintf(self::CREATE_OFFICIAL_TEMPLATE, $orgId);
         $params = [
-            'alias'   => $alias,
-            'color'   => $color,
-            'height'  => $height,
-            'width'   => $width,
-            'htext'   => $htext,
-            'qtext'   => $qtext,
-            'type'    => $type,
+            'alias' => $alias,
+            'color' => $color,
+            'height' => $height,
+            'width' => $width,
+            'htext' => $htext,
+            'qtext' => $qtext,
+            'type' => $type,
             'central' => $central,
         ];
 
@@ -108,11 +108,11 @@ class Template extends AbstractAPI
     {
         $url = sprintf(self::CREATE_IMAGE_TEMPLATE, $accountId);
         $params = [
-            'alias'           => $alias,
-            'height'          => $height,
-            'width'           => $width,
-            'type'            => $type,
-            'data'            => $data,
+            'alias' => $alias,
+            'height' => $height,
+            'width' => $width,
+            'type' => $type,
+            'data' => $data,
             'transparentFlag' => $transparentFlag
         ];
 
@@ -165,7 +165,7 @@ class Template extends AbstractAPI
         $url = sprintf(self::QUERY_ACCOUNT_TEMPLATE, $accountId);
         $params = [
             'offset' => $offset,
-            'size'   => $size,
+            'size' => $size,
         ];
 
         return $this->parseJSON('get', [$url, $params]);
@@ -187,7 +187,7 @@ class Template extends AbstractAPI
         $url = sprintf(self::QUERY_ORG_TEMPLATE, $orgId);
         $params = [
             'offset' => $offset,
-            'size'   => $size,
+            'size' => $size,
         ];
 
         return $this->parseJSON('get', [$url, $params]);

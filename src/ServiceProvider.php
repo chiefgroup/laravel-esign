@@ -11,11 +11,10 @@
 namespace QF\LaravelEsign;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
-use \Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 class ServiceProvider extends LaravelServiceProvider implements DeferrableProvider
 {
-
     public function register()
     {
         $this->app->singleton(Application::class, function () {

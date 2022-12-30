@@ -40,5 +40,4 @@ class EsignFacade extends Facade
     {
         return app('esign')->identity;
     }
-
 }

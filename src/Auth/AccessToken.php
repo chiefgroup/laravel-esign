@@ -164,5 +164,4 @@ class AccessToken
     {
         return $this->cachePrefix.md5(json_encode($this->getCredentials()));
     }
-
 }

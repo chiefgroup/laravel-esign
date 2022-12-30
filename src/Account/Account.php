@@ -17,18 +17,18 @@ use QF\LaravelEsign\Support\Collection;
 class Account extends AbstractAPI
 {
     // API URL
-    const CREATE_PERSONAL_ACCOUNT = '/v1/accounts/createByThirdPartyUserId';                // 创建个人账户
-    const UPDATE_ACCOUNT_BY_THIRD_ID = '/v1/accounts/updateByThirdId?thirdPartyUserId=%s';  // 个人账户修改(按照第三方用户ID修改)
-    const QUERY_ACCOUNT_BY_THIRD_ID = '/v1/accounts/getByThirdId';                          // 查询个人账户（按照第三方用户ID查询）
-    const DEL_ACCOUNT_BY_THIRD_ID = '/v1/accounts/deleteByThirdId?thirdPartyUserId=%s';     // 注销个人账户（按照第三方用户ID查询）
-    const SET_ACCOUNT_SIGN_PAW = '/v1/accounts/%s/setSignPwd';                              // 设置签署密码
-    const ACCOUNT_BY_ID = '/v1/accounts/%s';                                                // 个人账户修改\查询个人账户\注销个人账户(按照账号ID)
-    const ORG_BY_ID = '/v1/organizations/%s';                                               // 机构账户修改\查询机构账号\注销机构账号(按照账号ID)
-    const CREATE_COMPANY_ACCOUNT = '/v1/organizations/createByThirdPartyUserId';            // 创建企业账户
-    const UPDATE_ORG_BY_THIRD_ID = '/v1/organizations/updateByThirdId?thirdPartyUserId=%s'; // 机构账号修改（按照第三方机构ID修改）
-    const QUERY_ORG_BY_THIRD_ID = '/v1/organizations/getByThirdId?thirdPartyUserId=%s';     // 查询机构账号（按照第三方机构ID查询）
-    const DEL_ORG_BY_THIRD_ID = '/v1/organizations/deleteByThirdId?thirdPartyUserId=%s';    // 注销机构账号（按照账号ID注销）
-    const SIGN_AUTH = '/v1/signAuth/%s';                                                    // 设置静默签署/撤销静默签署
+    public const CREATE_PERSONAL_ACCOUNT = '/v1/accounts/createByThirdPartyUserId';                // 创建个人账户
+    public const UPDATE_ACCOUNT_BY_THIRD_ID = '/v1/accounts/updateByThirdId?thirdPartyUserId=%s';  // 个人账户修改(按照第三方用户ID修改)
+    public const QUERY_ACCOUNT_BY_THIRD_ID = '/v1/accounts/getByThirdId';                          // 查询个人账户（按照第三方用户ID查询）
+    public const DEL_ACCOUNT_BY_THIRD_ID = '/v1/accounts/deleteByThirdId?thirdPartyUserId=%s';     // 注销个人账户（按照第三方用户ID查询）
+    public const SET_ACCOUNT_SIGN_PAW = '/v1/accounts/%s/setSignPwd';                              // 设置签署密码
+    public const ACCOUNT_BY_ID = '/v1/accounts/%s';                                                // 个人账户修改\查询个人账户\注销个人账户(按照账号ID)
+    public const ORG_BY_ID = '/v1/organizations/%s';                                               // 机构账户修改\查询机构账号\注销机构账号(按照账号ID)
+    public const CREATE_COMPANY_ACCOUNT = '/v1/organizations/createByThirdPartyUserId';            // 创建企业账户
+    public const UPDATE_ORG_BY_THIRD_ID = '/v1/organizations/updateByThirdId?thirdPartyUserId=%s'; // 机构账号修改（按照第三方机构ID修改）
+    public const QUERY_ORG_BY_THIRD_ID = '/v1/organizations/getByThirdId?thirdPartyUserId=%s';     // 查询机构账号（按照第三方机构ID查询）
+    public const DEL_ORG_BY_THIRD_ID = '/v1/organizations/deleteByThirdId?thirdPartyUserId=%s';    // 注销机构账号（按照账号ID注销）
+    public const SIGN_AUTH = '/v1/signAuth/%s';                                                    // 设置静默签署/撤销静默签署
 
     /**
      * 创建个人账号.
@@ -48,11 +48,11 @@ class Account extends AbstractAPI
     {
         $params = [
             'thirdPartyUserId' => $thirdPartyUserId,
-            'name'             => $name,
-            'idType'           => $idType,
-            'idNumber'         => $idNumber,
-            'mobile'           => $mobile,
-            'email'            => $email,
+            'name' => $name,
+            'idType' => $idType,
+            'idNumber' => $idNumber,
+            'mobile' => $mobile,
+            'email' => $email,
         ];
 
         return $this->parseJSON('json', [self::CREATE_PERSONAL_ACCOUNT, $params]);
@@ -76,10 +76,10 @@ class Account extends AbstractAPI
     {
         $url = sprintf(self::ACCOUNT_BY_ID, $accountId);
         $params = [
-            'mobile'   => $mobile,
-            'email'    => $email,
-            'name'     => $name,
-            'idType'   => $idType,
+            'mobile' => $mobile,
+            'email' => $email,
+            'name' => $name,
+            'idType' => $idType,
             'idNumber' => $idNumber,
         ];
 
@@ -104,10 +104,10 @@ class Account extends AbstractAPI
     {
         $url = sprintf(self::UPDATE_ACCOUNT_BY_THIRD_ID, $thirdPartyUserId);
         $params = [
-            'mobile'   => $mobile,
-            'email'    => $email,
-            'name'     => $name,
-            'idType'   => $idType,
+            'mobile' => $mobile,
+            'email' => $email,
+            'name' => $name,
+            'idType' => $idType,
             'idNumber' => $idNumber,
         ];
 
@@ -219,12 +219,12 @@ class Account extends AbstractAPI
     {
         $params = [
             'thirdPartyUserId' => $thirdPartyUserId,
-            'creator'          => $creatorAccountId,
-            'name'             => $name,
-            'idType'           => $idType,
-            'idNumber'         => $idNumber,
+            'creator' => $creatorAccountId,
+            'name' => $name,
+            'idType' => $idType,
+            'idNumber' => $idNumber,
             'orgLegalIdNumber' => $orgLegalIdNumber,
-            'orgLegalName'     => $orgLegalName,
+            'orgLegalName' => $orgLegalName,
         ];
 
         return $this->parseJSON('json', [self::CREATE_COMPANY_ACCOUNT, $params]);
@@ -248,11 +248,11 @@ class Account extends AbstractAPI
     {
         $url = sprintf(self::ORG_BY_ID, $orgId);
         $params = [
-            'name'             => $name,
-            'idType'           => $idType,
-            'idNumber'         => $idNumber,
+            'name' => $name,
+            'idType' => $idType,
+            'idNumber' => $idNumber,
             'orgLegalIdNumber' => $orgLegalIdNumber,
-            'orgLegalName'     => $orgLegalName,
+            'orgLegalName' => $orgLegalName,
         ];
 
         return $this->parseJSON('putJson', [$url, $params]);
@@ -274,8 +274,8 @@ class Account extends AbstractAPI
     {
         $url = sprintf(self::UPDATE_ORG_BY_THIRD_ID, $thirdPartyUserId);
         $params = [
-            'name'     => $name,
-            'idType'   => $idType,
+            'name' => $name,
+            'idType' => $idType,
             'idNumber' => $idNumber,
         ];
 

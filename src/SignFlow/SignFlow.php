@@ -17,18 +17,18 @@ use QF\LaravelEsign\Support\Collection;
 class SignFlow extends AbstractAPI
 {
     // Api URL
-    const CREATE_FLOW_NOE_STEP = '/api/v2/signflows/createFlowOneStep';         // 一步发起签署
-    const CREATE_SIGN_PROCESS = '/v1/signflows';                                // 签署流程创建
-    const PROCESS_DOCUMENT_ADD = '/v1/signflows/%s/documents';                  // 流程文档添加
-    const PLATFORM_SIGN_ADD = '/v1/signflows/%s/signfields/platformSign';       // 添加平台方自动盖章签署区
-    const HAND_SIGN_ADD = '/v1/signflows/%s/signfields/handSign';               // 添加手动盖章签署区
-    const AUTO_SIGN_ADD = 'v1/signflows/%s/signfields/autoSign';                // 添加签署方自动盖章签署区
-    const SIGN_PROCESS_START = '/v1/signflows/%s/start';                        // 签署流程开启
-    const EXECUTE_URL = '/v1/signflows/%s/executeUrl';                          // 获取签署地址
-    const SIGN_PROCESS_ARCHIVE = '/v1/signflows/%s/archive';                    // 签署流程归档
-    const SIGN_PROCESS_DOCUMENT = '/v1/signflows/%s/documents';                 // 流程文档下载
-    const SIGN_REVOKE = '/v1/signflows/%s/revoke';                              // 签署流程撤销
-    const SIGN_PROCESS_STATUS = '/v1/signflows/%s';                             // 签署流程状态查询
+    public const CREATE_FLOW_NOE_STEP = '/api/v2/signflows/createFlowOneStep';         // 一步发起签署
+    public const CREATE_SIGN_PROCESS = '/v1/signflows';                                // 签署流程创建
+    public const PROCESS_DOCUMENT_ADD = '/v1/signflows/%s/documents';                  // 流程文档添加
+    public const PLATFORM_SIGN_ADD = '/v1/signflows/%s/signfields/platformSign';       // 添加平台方自动盖章签署区
+    public const HAND_SIGN_ADD = '/v1/signflows/%s/signfields/handSign';               // 添加手动盖章签署区
+    public const AUTO_SIGN_ADD = 'v1/signflows/%s/signfields/autoSign';                // 添加签署方自动盖章签署区
+    public const SIGN_PROCESS_START = '/v1/signflows/%s/start';                        // 签署流程开启
+    public const EXECUTE_URL = '/v1/signflows/%s/executeUrl';                          // 获取签署地址
+    public const SIGN_PROCESS_ARCHIVE = '/v1/signflows/%s/archive';                    // 签署流程归档
+    public const SIGN_PROCESS_DOCUMENT = '/v1/signflows/%s/documents';                 // 流程文档下载
+    public const SIGN_REVOKE = '/v1/signflows/%s/revoke';                              // 签署流程撤销
+    public const SIGN_PROCESS_STATUS = '/v1/signflows/%s';                             // 签署流程状态查询
 
     /**
      * 一步发起签署.
@@ -66,9 +66,9 @@ class SignFlow extends AbstractAPI
     public function createSignFlow($businessScene, $noticeDeveloperUrl = null, $autoArchive = true)
     {
         $params = [
-            'autoArchive'   => $autoArchive,
+            'autoArchive' => $autoArchive,
             'businessScene' => $businessScene,
-            'configInfo'    => [
+            'configInfo' => [
                 'noticeDeveloperUrl' => $noticeDeveloperUrl,
             ],
         ];
@@ -95,9 +95,9 @@ class SignFlow extends AbstractAPI
         $params = [
             'docs' => [
                 [
-                    'fileId'       => $fileId,
-                    'encryption'   => $encryption,
-                    'fileName'     => $fileName,
+                    'fileId' => $fileId,
+                    'encryption' => $encryption,
+                    'fileName' => $fileName,
                     'filePassword' => $filePassword
                 ],
             ],
@@ -199,10 +199,10 @@ class SignFlow extends AbstractAPI
     {
         $url = sprintf(self::EXECUTE_URL, $flowId);
         $params = [
-            'accountId'  => $accountId,
+            'accountId' => $accountId,
             'organizeId' => $orgId,
-            'urlType'    => $urlType,
-            'appScheme'  => $appScheme,
+            'urlType' => $urlType,
+            'appScheme' => $appScheme,
         ];
 
         return $this->parseJSON('get', [$url, $params]);

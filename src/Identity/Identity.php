@@ -16,11 +16,10 @@ use QF\LaravelEsign\Support\Collection;
 
 class Identity extends AbstractAPI
 {
-
     // 认证Api
-    const ORG_IDENTITY_URL = '/v2/identity/auth/web/%s/orgIdentityUrl';                                    // 获取组织机构实名认证地址
-    const CHECK_BANK_CARD_4FACTORS = '/v2/identity/auth/api/individual/bankCard4Factors';                  // 银行卡4要素核身校验
-    const CHECK_BANK_MOBILE_AUTH_CODE = '/v2/identity/auth/pub/individual/%s/bankCard4Factors';      // 银行预留手机号验证码检验
+    public const ORG_IDENTITY_URL = '/v2/identity/auth/web/%s/orgIdentityUrl';                                    // 获取组织机构实名认证地址
+    public const CHECK_BANK_CARD_4FACTORS = '/v2/identity/auth/api/individual/bankCard4Factors';                  // 银行卡4要素核身校验
+    public const CHECK_BANK_MOBILE_AUTH_CODE = '/v2/identity/auth/pub/individual/%s/bankCard4Factors';      // 银行预留手机号验证码检验
 
     /**
      * @param  string  $orgId  机构 id
@@ -41,13 +40,13 @@ class Identity extends AbstractAPI
         $url = sprintf(self::ORG_IDENTITY_URL, $orgId);
 
         $params = [
-            'authType'       => $authType,
+            'authType' => $authType,
             'repeatIdentity' => $repeatIdentity,
             'agentAccountId' => $agentAccountId,
-            'contextInfo'    => [
-                'contextId'      => $contextId,
-                'notifyUrl'      => $notifyUrl,
-                'redirectUrl'    => $redirectUrl,
+            'contextInfo' => [
+                'contextId' => $contextId,
+                'notifyUrl' => $notifyUrl,
+                'redirectUrl' => $redirectUrl,
                 'showResultPage' => $showResultPage,
             ],
         ];
@@ -73,13 +72,13 @@ class Identity extends AbstractAPI
         $url = self::CHECK_BANK_CARD_4FACTORS;
 
         $params = [
-            'name'       => $name,
-            'contextId'  => $contextId,
-            'idNo'       => $idNo,
-            'mobileNo'   => $mobileNo,
+            'name' => $name,
+            'contextId' => $contextId,
+            'idNo' => $idNo,
+            'mobileNo' => $mobileNo,
             'bankCardNo' => $bankCardNo,
-            'certType'   => $certType,
-            'notifyUrl'  => $notifyUrl,
+            'certType' => $certType,
+            'notifyUrl' => $notifyUrl,
         ];
 
         return $this->parseJSON('json', [$url, $params]);

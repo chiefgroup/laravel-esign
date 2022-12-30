@@ -33,8 +33,8 @@ abstract class AbstractAPI
      */
     protected $accessToken;
 
-    const JSON = 'json';
-    const SUCCESS_STATUS = 200;
+    public const JSON = 'json';
+    public const SUCCESS_STATUS = 200;
 
     /**
      * @var int

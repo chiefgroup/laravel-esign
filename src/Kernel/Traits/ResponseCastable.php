@@ -2,7 +2,6 @@
 
 namespace QF\LaravelEsign\Kernel\Traits;
 
-
 use Psr\Http\Message\ResponseInterface;
 use QF\LaravelEsign\Kernel\Http\Response;
 use QF\LaravelEsign\Kernel\Support\Collection;

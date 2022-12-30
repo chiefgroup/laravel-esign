@@ -21,6 +21,7 @@
         "symfony/http-foundation": "^4.0 || ^5.0 || ^6.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.13",
         "laravel/framework": "^8",
         "mockery/mockery": "^1.2.3",
         "phpunit/phpunit": "^9.3"
@@ -49,8 +50,8 @@
         }
     },
     "scripts": {
-        "test": "phpunit --colors",
-        "fix-style": "php-cs-fixer fix --using-cache=no --ansi"
+        "test": "vendor/bin/phpunit --colors=always --testdox",
+        "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --ansi"
     },
     "license": "MIT"
 }

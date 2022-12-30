@@ -9,8 +9,6 @@
 
 namespace QF\LaravelEsign;
 
-use QF\LaravelEsign\Auth\AccessToken;
-use QF\LaravelEsign\Kernel\Config;
 use QF\LaravelEsign\Kernel\Providers\ConfigServiceProvider;
 use QF\LaravelEsign\Kernel\Providers\HttpClientServiceProvider;
 use QF\LaravelEsign\Kernel\Providers\LogServiceProvider;
@@ -19,9 +17,12 @@ use Pimple\Container;
 /**
  * Class Application.
  *
- * @property Config $config
- * @property AccessToken $access_token
+ * @property \QF\LaravelEsign\Kernel\Config $config
+ * @property \QF\LaravelEsign\Auth\AccessToken $access_token
+ *
  * @property \QF\LaravelEsign\Account\Client $account
+ * @property \QF\LaravelEsign\File\Client $file
+ * @property \QF\LaravelEsign\Template\Client $template
  */
 class Application extends Container
 {
@@ -41,6 +42,8 @@ class Application extends Container
     protected array $providers = [
         Auth\ServiceProvider::class,
         Account\ServiceProvider::class,
+        File\ServiceProvider::class,
+        Template\ServiceProvider::class
     ];
 
     public function __construct(array $config = [])
@@ -50,7 +53,6 @@ class Application extends Container
         parent::__construct($config);
 
         $this->registerProviders($this->getProviders());
-
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace QF\LaravelEsign\Kernel;
 
-
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Pimple\Container;
@@ -36,7 +35,7 @@ class BaseClient
     /**
      * BaseClient constructor.
      *
-     * @param Container                    $app
+     * @param Container        $app
      * @param AccessToken|null $accessToken
      */
     public function __construct(Container $app, AccessToken $accessToken = null)
@@ -65,12 +64,6 @@ class BaseClient
     public function httpPost(string $url, array $data = [])
     {
         return $this->request($url, 'POST', ['form_params' => $data]);
-    }
-
-    public function httpPutFile(string $url, array $query, $body, array $headers = [])
-    {
-
-        return $this->request($url, 'PUT', ['query'=> $query,'body' => $body, 'headers' => $headers]);
     }
 
     /**
@@ -146,5 +139,4 @@ class BaseClient
 
         return Middleware::log($this->app['logger'], $formatter, LogLevel::DEBUG);
     }
-
 }

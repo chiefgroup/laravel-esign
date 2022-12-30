@@ -8,29 +8,32 @@
 namespace QF\LaravelEsign\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
-use QF\LaravelEsign\Core\AccessToken;
-use QF\LaravelEsign\Core\Http;
-use QF\LaravelEsign\File\File;
+use Pimple\Container;
+use QF\LaravelEsign\Auth\AccessToken;
 
 class TestCase extends BaseTestCase
 {
-    public function mockClient()
+    public function mockApiClient($name, $methods = [], Container $app = null)
     {
-        $accessToken = \Mockery::mock(AccessToken::class);
-        $accessToken->shouldReceive('getAppId')->andReturn('app-id');
-        $accessToken->shouldReceive('getToken')->andReturn('token');
+        $methods = implode(',', array_merge([
+            'httpGet', 'httpPost', 'httpPostJson', 'httpUpload',
+            'request', 'requestRaw', 'requestArray', 'registerMiddlewares',
+        ], (array) $methods));
 
-        Http::setDefaultOptions(['timeout' => 5.0, 'base_uri' => 'https://smlopenapi.esign.cn']);
-        $methods = 'downloadFile';
-        $file = \Mockery::mock(File::class . "[{$methods}]", [$accessToken])->shouldAllowMockingProtectedMethods();
-        $file->allows()->registerHttpMiddlewares()->andReturnNull();
+        $client = \Mockery::mock(
+            $name."[{$methods}]",
+            [
+                $app ?? \Mockery::mock(Container::class),
+                \Mockery::mock(AccessToken::class)
+            ]
+        )->shouldAllowMockingProtectedMethods();
+        $client->allows()->registerHttpMiddlewares()->andReturnNull();
 
-        return $file;
+        return $client;
     }
 
     protected function tearDown(): void
     {
         \Mockery::close();
     }
-
 }

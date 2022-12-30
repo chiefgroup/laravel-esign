@@ -2,8 +2,6 @@
 
 namespace QF\LaravelEsign\Kernel\Http;
 
-
-
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Psr\Http\Message\ResponseInterface;
 use QF\LaravelEsign\Kernel\Support\Collection;
