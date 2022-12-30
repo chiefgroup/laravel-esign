@@ -16,9 +16,9 @@ use Pimple\ServiceProviderInterface;
 
 class SignFlowProvider implements ServiceProviderInterface
 {
-    public function register(Container $pimple)
+    public function register(Container $app)
     {
-        $pimple['signflow'] = function ($pimple) {
+        $app['signflow'] = function ($pimple) {
             return new SignFlow\SignFlow($pimple['access_token']);
         };
     }

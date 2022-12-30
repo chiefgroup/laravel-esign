@@ -18,16 +18,16 @@ class ServiceProvider extends LaravelServiceProvider implements DeferrableProvid
 
     public function register()
     {
-        $this->app->singleton(Esign::class, function () {
-            return new Esign(config('esign'));
+        $this->app->singleton(Application::class, function () {
+            return new Application(config('esign'));
         });
 
-        $this->app->alias(Esign::class, 'esign');
+        $this->app->alias(Application::class, 'esign');
     }
 
     public function provides()
     {
-        return [Esign::class, 'esign'];
+        return [Application::class, 'esign'];
     }
 
     public function boot()

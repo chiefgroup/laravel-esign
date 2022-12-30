@@ -24,9 +24,13 @@ return [
         ],
     ],
     'log'        => [
+        'file'       => '/tmp/esign.log',
+        'level'      => 'debug',
         'handler'    => null,
-        'file'       => 'storage/logs/esign.log',
-        'level'      => 100,
         'permission' => null
+    ],
+    'http' => [
+        'max_retries' => 3,
+        'retry_delay' => 300
     ]
 ];

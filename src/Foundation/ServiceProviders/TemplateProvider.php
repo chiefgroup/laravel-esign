@@ -16,9 +16,9 @@ use Pimple\ServiceProviderInterface;
 
 class TemplateProvider implements ServiceProviderInterface
 {
-    public function register(Container $pimple)
+    public function register(Container $app)
     {
-        $pimple['template'] = function ($pimple) {
+        $app['template'] = function ($pimple) {
             return new Template\Template($pimple['access_token']);
         };
     }

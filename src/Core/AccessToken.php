@@ -10,10 +10,11 @@
 
 namespace QF\LaravelEsign\Core;
 
-use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Cache\FilesystemCache;
 use QF\LaravelEsign\Exceptions\HttpException;
 
+/**
+ * @see https://open.esign.cn/doc/opendoc/identity_service/szr5s9
+ */
 class AccessToken
 {
     protected $appId;

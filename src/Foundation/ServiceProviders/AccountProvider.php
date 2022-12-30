@@ -16,9 +16,9 @@ use Pimple\ServiceProviderInterface;
 
 class AccountProvider implements ServiceProviderInterface
 {
-    public function register(Container $pimple)
+    public function register(Container $app)
     {
-        $pimple['account'] = function ($pimple) {
+        $app['account'] = function ($pimple) {
             return new Account\Account($pimple['access_token']);
         };
     }

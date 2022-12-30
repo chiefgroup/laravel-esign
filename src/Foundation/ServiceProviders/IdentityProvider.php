@@ -16,9 +16,9 @@ use Pimple\ServiceProviderInterface;
 
 class IdentityProvider implements ServiceProviderInterface
 {
-    public function register(Container $pimple)
+    public function register(Container $app)
     {
-        $pimple['identity'] = function ($pimple) {
+        $app['identity'] = function ($pimple) {
             return new Identity\Identity($pimple['access_token']);
         };
     }
