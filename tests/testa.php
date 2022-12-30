@@ -4,7 +4,7 @@ require_once "vendor/autoload.php";
 
 $config = [
     'app_id' => '7438810467',
-    'secret' => '3ad905b7d25312e6f6195d987bd6067e',
+    'secret' => '',
     'response_type' => 'collection',
     'log' => [
         'level' => 'debug',
@@ -27,7 +27,7 @@ $str = 'https://qf-common-test.oss-cn-zhangjiakou.aliyuncs.com/qifu_operation/co
 //$file = $app->file;
 //$r = $file->getUploadUrl($str, 'name.pdf', 100);
 $template = $app->template;
-$templateId = '9ab4ed8d46c44e239e6dd6216133257e';
-//$r = $template->createByTemplate('文件.pdf', $templateId, ['test'=>'abc']);
-$r = $template->docTemplates($templateId);
+$templateId = '2c76ab829f75457eb07fe2fd4ef5705c';
+$r = $template->createByTemplate('文件.pdf', $templateId, ['test'=>'abc']);
+//$r = $template->docTemplates($templateId);
 var_dump($r);
