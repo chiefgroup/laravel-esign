@@ -19,6 +19,7 @@ use Pimple\Container;
  *
  * @property \QF\LaravelEsign\Kernel\Config $config
  * @property \QF\LaravelEsign\Kernel\Log\LogManager $log
+ * @property \QF\LaravelEsign\Kernel\Log\LogManager $logger
  *
  * @property \QF\LaravelEsign\Auth\AccessToken $access_token
  *

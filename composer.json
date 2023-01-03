@@ -6,6 +6,10 @@
         {
             "name": "peng",
             "email": "2512422541@qq.com"
+        },
+        {
+            "name": "observer",
+            "email": "sxpd7788@gmail.com"
         }
     ],
     "require": {
@@ -45,7 +49,7 @@
                 "QF\\LaravelEsign\\ServiceProvider"
             ],
             "aliases": {
-                "Esign": "QF\\LaravelEsign\\EsignFacade"
+                "Esign": "QF\\LaravelEsign\\Esign"
             }
         }
     },
