@@ -88,7 +88,7 @@ class BaseClient
         // access token
         $this->pushMiddleware($this->accessTokenMiddleware(), 'access_token');
         // log
-//        $this->pushMiddleware($this->logMiddleware(), 'log');
+        $this->pushMiddleware($this->logMiddleware(), 'log');
     }
 
     protected function accessTokenMiddleware()
@@ -119,7 +119,7 @@ class BaseClient
 
                     if (!empty($response['code']) && in_array(abs($response['code']), [401], true)) {
                         $this->accessToken->refresh();
-//                        $this->app['logger']->debug('Retrying with refreshed access token.');
+                        $this->app['logger']->debug('Retrying with refreshed access token.');
 
                         return true;
                     }

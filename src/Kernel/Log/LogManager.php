@@ -174,8 +174,8 @@ class LogManager implements LoggerInterface
      */
     protected function createEmergencyLogger()
     {
-        return new Monolog('EasyWeChat', $this->prepareHandlers([new StreamHandler(
-            \sys_get_temp_dir().'/easywechat/easywechat.log',
+        return new Monolog('Esign', $this->prepareHandlers([new StreamHandler(
+            \sys_get_temp_dir().'/esign/esign.log',
             $this->level(['level' => 'debug'])
         )]));
     }
@@ -273,7 +273,7 @@ class LogManager implements LoggerInterface
             $this->prepareHandler(new SlackWebhookHandler(
                 $config['url'],
                 $config['channel'] ?? null,
-                $config['username'] ?? 'EasyWeChat',
+                $config['username'] ?? 'Esign',
                 $config['attachment'] ?? true,
                 $config['emoji'] ?? ':boom:',
                 $config['short'] ?? false,
@@ -296,7 +296,7 @@ class LogManager implements LoggerInterface
     {
         return new Monolog($this->parseChannel($config), [
             $this->prepareHandler(new SyslogHandler(
-                'EasyWeChat',
+                'Esign',
                 $config['facility'] ?? LOG_USER,
                 $this->level($config)
             ), $config),
@@ -379,7 +379,7 @@ class LogManager implements LoggerInterface
      */
     protected function parseChannel(array $config): string
     {
-        return $config['name'] ?? 'EasyWeChat';
+        return $config['name'] ?? 'Esign';
     }
 
     /**

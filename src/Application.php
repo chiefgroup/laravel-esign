@@ -18,6 +18,8 @@ use Pimple\Container;
  * Class Application.
  *
  * @property \QF\LaravelEsign\Kernel\Config $config
+ * @property \QF\LaravelEsign\Kernel\Log\LogManager $log
+ *
  * @property \QF\LaravelEsign\Auth\AccessToken $access_token
  *
  * @property \QF\LaravelEsign\Account\Client $account
@@ -50,7 +52,7 @@ class Application extends Container
     {
         $this->userConfig = $config;
 
-        parent::__construct($config);
+        parent::__construct([]);
 
         $this->registerProviders($this->getProviders());
     }
@@ -91,8 +93,8 @@ class Application extends Container
     {
         return array_merge([
             ConfigServiceProvider::class,
+            LogServiceProvider::class,
             HttpClientServiceProvider::class,
-            LogServiceProvider::class
         ], $this->providers);
     }
 
@@ -117,21 +119,4 @@ class Application extends Container
         }
     }
 
-
-    /**
-     * @param $method
-     * @param $args
-     *
-     * @return mixed
-     *
-     * @throws \Exception
-     */
-    public function __call($method, $args)
-    {
-        if (is_callable([$this['fundamental.api'], $method])) {
-            return call_user_func_array([$this['fundamental.api'], $method], $args);
-        }
-
-        throw new \Exception("Call to undefined method {$method}()");
-    }
 }
