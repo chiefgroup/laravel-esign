@@ -10,24 +10,29 @@
  */
 
 return [
-    'debug' => true,
-    'appId' => env('ESIGN_APPID', 'your-app-id'),                            // APP ID
-    'appKey' => env('ESIGN_APPKEY', 'your-app-key'),                          // APP KEY
-    'server' => env('ESIGN_SERVER', 'https://smlopenapi.esign.cn'),           // esign api v2 url.
-    'notify_url' => env('ESIGN_NOTIFY_URL', 'XXXXXX/api/esign/callback'),         // callback url
-    // Orgs
-    'orgs' => [
-        'xxx' => [
-            'org_id' => 'xxxxxxxxxxxxxxxxx',
-            'name' => 'xxxxxxxxxx有限公司',
-            'address' => 'xxxxx',
-        ],
-    ],
+    'appId' => env('ESIGN_APPID', ''),
+    'appKey' => env('ESIGN_APPKEY', ''),
+    'server' => env('ESIGN_SERVER', 'https://smlopenapi.esign.cn'),
+    'notify_url' => env('ESIGN_NOTIFY_URL', ''),
     'log' => [
-        'file' => '/tmp/esign.log',
-        'level' => 'debug',
-        'handler' => null,
-        'permission' => null
+        'default' => env('APP_ENV', 'local'),
+        'channels' => [
+            'local' => [
+                'driver' => 'single',
+                'level' => 'debug',
+                'path' => '/Users/observer/Downloads/esign.log',
+            ],
+            'dev' => [
+                'driver' => 'daily',
+                'level' => 'debug',
+                'path' => '/Users/observer/Downloads/esign.log',
+            ],
+            'prod' => [
+                'driver' => 'daily',
+                'level' => 'debug',
+                'path' => '/Users/observer/Downloads/esign.log',
+            ]
+        ]
     ],
     'http' => [
         'max_retries' => 3,

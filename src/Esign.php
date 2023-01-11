@@ -22,9 +22,18 @@ class Esign extends Facade
         return app('esign')->file;
     }
 
+    public function signFlow(): \QF\LaravelEsign\SignFlow\Client
+    {
+        return app('esign')->signFlow;
+    }
+
     public static function template(): \QF\LaravelEsign\Template\Client
     {
         return app('esign')->template;
     }
 
+    public function identity(): \QF\LaravelEsign\Identity\Client
+    {
+        return app('esign')->identity;
+    }
 }

@@ -5,7 +5,6 @@ namespace QF\LaravelEsign\Auth;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use QF\LaravelEsign\Application;
-use QF\LaravelEsign\Exceptions\HttpException;
 use QF\LaravelEsign\Kernel\Exceptions\RuntimeException;
 use QF\LaravelEsign\Kernel\Traits\HasHttpRequests;
 use QF\LaravelEsign\Kernel\Traits\InteractsWithCache;
@@ -79,9 +78,11 @@ class AccessToken
     }
 
     /**
+     * @param bool $refresh
      * @return mixed
-     *
-     * @throws HttpException
+     * @throws RuntimeException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \QF\LaravelEsign\Kernel\Exceptions\InvalidArgumentException
      */
     public function getToken(bool $refresh = false): array
     {
@@ -115,10 +116,6 @@ class AccessToken
         $result = json_decode($response->getBody()->getContents(), true);
         $formatted = $this->castResponseToType($response, $this->app['config']->get('response_type'));
 
-//        if (empty($result[$this->tokenKey])) {
-//            throw new \EasyWeChat\Kernel\Exceptions\HttpException('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response, $formatted);
-//        }
-
         return $toArray ? $result['data'] : $formatted;
     }
 
@@ -126,7 +123,6 @@ class AccessToken
      * @param RequestInterface $request
      * @param array $requestOptions
      * @return RequestInterface
-     * @throws HttpException
      */
     public function applyToRequest(RequestInterface $request, array $requestOptions = []): RequestInterface
     {

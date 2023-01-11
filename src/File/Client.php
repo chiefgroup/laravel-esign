@@ -2,7 +2,6 @@
 
 namespace QF\LaravelEsign\File;
 
-use GuzzleHttp\Exception\ClientException;
 use QF\LaravelEsign\Kernel\BaseClient;
 
 class Client extends BaseClient
@@ -30,54 +29,42 @@ class Client extends BaseClient
         return $this->httpPostJson('/v1/files/getUploadUrl', $params);
     }
 
+    public function info(string $fileId)
+    {
+        return $this->httpGet("/v1/files/{$fileId}");
+    }
+
+    public function status(string $fileId)
+    {
+        return $this->httpGet("/v1/files/{$fileId}/status");
+    }
+
     /**
-     * 文件上传
-     * @see https://open.esign.cn/doc/opendoc/saas_api/gcu36n
-     * 第一步：获取文件上传地址；第二步：文件流上传
+     * 填充内容生成PDF
      *
-     * @param $fileUrl
-     * @param $fileName
-     * @param $fileSize
-     * @param string $contentType
-     * @param bool $convert2Pdf
+     * @see https://open.esign.cn/doc/opendoc/saas_api/siipw3
+     *
+     * @param string $name
+     * @param string $templateId
+     * @param array $simpleFormFields
+     * @param bool $strictCheck
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function uploadFile($fileUrl, $fileName, $fileSize, string $contentType = 'application/pdf', bool $convert2Pdf = false)
+    public function createByTemplate(string $name, string $templateId, array $simpleFormFields, bool $strictCheck = false)
     {
-        $contentMd5 = $this->getFileBase64Md5($fileUrl);
-
-        $params = [
-            'contentMd5' => $contentMd5,
-            'fileName' => $fileName,
-            'fileSize' => $fileSize,
-            'contentType' => $contentType,
-            'convert2Pdf' => $convert2Pdf,
-        ];
-        $getUploadUrl = $this->httpPostJson('/v1/files/getUploadUrl', $params);
-
-        $fileContent = file_get_contents($fileUrl);
-
-        $headers = [
-            'Content-Type:'.$contentType,
-            'Content-Md5:'.$contentMd5
-        ];
-        $parseUrl = parse_url($getUploadUrl['data']['uploadUrl']);
-        parse_str($parseUrl['query'], $query);
-        try {
-            return $this->sendHttpPut($getUploadUrl['data']['uploadUrl'], $fileContent, $headers);
-//            $this->httpPutFile($parseUrl['scheme'].  '://'.$parseUrl['host'] . $parseUrl['path'], $query, $fileContent, $headers);
-        } catch (ClientException $exception) {
-            var_dump($exception->getMessage(), $exception->getCode());
-        }
-        return 1;
+        return $this->httpPostJson('/v1/files/createByTemplate', [
+            'name' => $name,
+            'templateId' => $templateId,
+            'simpleFormFields' => $simpleFormFields,
+            'strictCheck' => $strictCheck
+        ]);
     }
 
-    public function sendHttpPut($uploadUrls, $fileContent, $headers)
+    public function sendHttpPut(string $uploadUrl, string $fileContent, array $headers)
     {
-        $status = '';
         $curl_handle = curl_init();
-        curl_setopt($curl_handle, CURLOPT_URL, $uploadUrls);
+        curl_setopt($curl_handle, CURLOPT_URL, $uploadUrl);
         curl_setopt($curl_handle, CURLOPT_FILETIME, true);
         curl_setopt($curl_handle, CURLOPT_FRESH_CONNECT, false);
         curl_setopt($curl_handle, CURLOPT_HEADER, true); // 输出HTTP头 true
@@ -96,7 +83,6 @@ class Client extends BaseClient
 
         if ($result === false) {
             $status = curl_errno($curl_handle);
-            $result = 'put file to oss - curl error :'.curl_error($curl_handle);
         }
         curl_close($curl_handle);
         return $status;

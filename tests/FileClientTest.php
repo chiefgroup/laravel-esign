@@ -4,7 +4,7 @@ namespace QF\LaravelEsign\Tests;
 
 use QF\LaravelEsign\File\Client;
 
-class FileTest extends TestCase
+class FileClientTest extends TestCase
 {
     public function testGetUploadUrl()
     {

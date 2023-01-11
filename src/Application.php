@@ -26,6 +26,10 @@ use Pimple\Container;
  * @property \QF\LaravelEsign\Account\Client $account
  * @property \QF\LaravelEsign\File\Client $file
  * @property \QF\LaravelEsign\Template\Client $template
+ * @property \QF\LaravelEsign\SignFlow\Client $signFlow
+ * @property \QF\LaravelEsign\Seal\Client $seal
+ * @property \QF\LaravelEsign\Identity\Client $identity
+ *
  */
 class Application extends Container
 {
@@ -46,7 +50,10 @@ class Application extends Container
         Auth\ServiceProvider::class,
         Account\ServiceProvider::class,
         File\ServiceProvider::class,
-        Template\ServiceProvider::class
+        Template\ServiceProvider::class,
+        Seal\ServiceProvider::class,
+        SignFlow\ServiceProvider::class,
+        Identity\ServiceProvider::class
     ];
 
     public function __construct(array $config = [])
@@ -119,5 +126,4 @@ class Application extends Container
             $this->register(new $provider());
         }
     }
-
 }
