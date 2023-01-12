@@ -125,9 +125,14 @@ class Client extends BaseClient
         return $this->httpPostJson('/v1/organizations/createByThirdPartyUserId', $params);
     }
 
-    public function queryOrganizeAccountByThirdId($thirdPartyUserId)
+    public function queryOrganizeAccountByThirdId(string $thirdPartyUserId)
     {
         return $this->httpget('/v1/organizations/getByThirdId', ['thirdPartyUserId' => $thirdPartyUserId]);
+    }
+
+    public function queryOrganizeAccountByOrgId(string $orgId)
+    {
+        return $this->httpget("/v1/organizations/{$orgId}");
     }
 
     public function updateOrganizeAccountByThirdId(
@@ -149,13 +154,31 @@ class Client extends BaseClient
         );
     }
 
-    public function deleteOrganizeAccountByThirdId($thirdPartyUserId)
+    public function updateOrganizeAccountById(string $orgId, $name = null, $idNumber = null, $orgLegalIdNumber = null, $orgLegalName = null, $idType = null)
+    {
+        $params = [
+            'name'             => $name,
+            'idNumber'         => $idNumber,
+            'idType'           => $idType,
+            'orgLegalIdNumber' => $orgLegalIdNumber,
+            'orgLegalName'     => $orgLegalName,
+        ];
+
+        return $this->httpPostJson("/v1/organizations/{$orgId}", $params);
+    }
+
+    public function deleteOrganizeAccountByThirdId(string $thirdPartyUserId)
     {
         return $this->request(
             '/v1/organizations/deleteByThirdId',
             'delete',
             ['query' => ['thirdPartyUserId' => $thirdPartyUserId]]
         );
+    }
+
+    public function deleteOrganizeAccountByOrgId(string $orgId)
+    {
+        return $this->request("/v1/organizations/{$orgId}", 'delete');
     }
 
     /**

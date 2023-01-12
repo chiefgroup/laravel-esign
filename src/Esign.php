@@ -32,7 +32,7 @@ class Esign extends Facade
         return app('esign')->template;
     }
 
-    public function identity(): \QF\LaravelEsign\Identity\Client
+    public static function identity(): \QF\LaravelEsign\Identity\Client
     {
         return app('esign')->identity;
     }
