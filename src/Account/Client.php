@@ -2,17 +2,18 @@
 
 namespace QF\LaravelEsign\Account;
 
+use QF\LaravelEsign\ConstMapping;
 use QF\LaravelEsign\Kernel\BaseClient;
 
 class Client extends BaseClient
 {
     public function createPersonalAccount(
         string $thirdPartyUserId,
+        string $mobile = null,
         string $name = null,
         string $idNumber = null,
-        string $idType = 'CRED_PSN_CH_IDCARD',
-        string $mobile = null,
-        string $email = null
+        string $email = null,
+        string $idType = 'CRED_PSN_CH_IDCARD'
     ) {
         return $this->httpPostJson('/v1/accounts/createByThirdPartyUserId', [
             'thirdPartyUserId' => $thirdPartyUserId,
@@ -93,23 +94,23 @@ class Client extends BaseClient
      * 创建机构签署账号
      *
      * @param string $thirdPartyUserId
+     * @param string $creatorAccountId
      * @param string $name
      * @param string $idNumber
      * @param string $idType
      * @param string|null $orgLegalIdNumber
      * @param string|null $orgLegalName
-     * @param string|null $creatorAccountId
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createOrganizeAccount(
         string $thirdPartyUserId,
+        string $creatorAccountId,
         string $name,
         string $idNumber,
-        string $idType = 'CRED_ORG_USCC',
         string $orgLegalIdNumber = null,
         string $orgLegalName = null,
-        string $creatorAccountId = null
+        string $idType = ConstMapping::CRED_ORG_USCC
     ) {
         $params = [
             'thirdPartyUserId' => $thirdPartyUserId,

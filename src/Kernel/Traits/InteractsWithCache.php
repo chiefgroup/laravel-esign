@@ -12,7 +12,6 @@ use Symfony\Component\Cache\Psr16Cache;
 /**
  * Trait InteractsWithCache.
  *
- * @author overtrue <i@overtrue.me>
  */
 trait InteractsWithCache
 {

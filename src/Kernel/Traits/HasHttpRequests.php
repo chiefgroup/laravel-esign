@@ -10,7 +10,6 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Trait HasHttpRequests.
  *
- * @author overtrue <i@overtrue.me>
  */
 trait HasHttpRequests
 {

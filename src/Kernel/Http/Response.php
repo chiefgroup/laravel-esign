@@ -8,7 +8,6 @@ use QF\LaravelEsign\Kernel\Support\Collection;
 
 /**
  * Class Response.
- *
  */
 class Response extends GuzzleResponse
 {

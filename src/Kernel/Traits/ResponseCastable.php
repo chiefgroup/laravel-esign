@@ -9,7 +9,6 @@ use QF\LaravelEsign\Kernel\Support\Collection;
 /**
  * Trait ResponseCastable.
  *
- * @author overtrue <i@overtrue.me>
  */
 trait ResponseCastable
 {
@@ -19,7 +18,6 @@ trait ResponseCastable
      *
      * @return array|object|\Psr\Http\Message\ResponseInterface|string
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function castResponseToType(ResponseInterface $response, $type = null)
     {
@@ -38,7 +36,6 @@ trait ResponseCastable
             default:
                 if (!is_subclass_of($type, \ArrayAccess::class)) {
                 }
-
                 return new $type($response);
         }
     }
@@ -47,10 +44,9 @@ trait ResponseCastable
      * @param mixed       $response
      * @param string|null $type
      *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @return array|\QF\LaravelEsign\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \QF\LaravelEsign\Kernel\Exceptions\InvalidArgumentException
      */
     protected function detectAndCastResponseToType($response, $type = null)
     {

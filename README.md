@@ -55,6 +55,13 @@ $eSign->account->createPersonalAccount('thirdId', 'name', 'idNumber');
 
 Esign::account->createPersonalAccount('thirdId', 'name', 'idNumber');
 ```
+
+# 版本对比
+| 版本 | 要求          | 其他 |
+| ---- |-------------| ---- |
+| 1.X| &gt;=PHP7.2 | |
+| 3.X | &gt;=PHP7.4 | | 
+
 ## License
 
 The MIT License (MIT). Please see License File for more information.
