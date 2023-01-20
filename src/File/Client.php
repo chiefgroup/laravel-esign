@@ -3,18 +3,20 @@
 namespace QF\LaravelEsign\File;
 
 use QF\LaravelEsign\Kernel\BaseClient;
+use QF\LaravelEsign\Kernel\Exceptions\BadResponseException;
 
 class Client extends BaseClient
 {
     /**
      * 文件上传-获取文件上传地址
      *
-     * @param string $fileUrl
+     * @param string $contentMd5
      * @param $fileName
      * @param $fileSize
      * @param string $contentType
      * @param bool $convert2Pdf
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws BadResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getUploadUrl(string $contentMd5, $fileName, $fileSize, string $contentType = 'application/pdf', bool $convert2Pdf = false)
@@ -29,6 +31,12 @@ class Client extends BaseClient
         return $this->httpPostJson('/v1/files/getUploadUrl', $params);
     }
 
+    /**
+     * @param string $fileId
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function info(string $fileId)
     {
         return $this->httpGet("/v1/files/{$fileId}");
@@ -50,6 +58,7 @@ class Client extends BaseClient
      * @param bool $strictCheck
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws BadResponseException
      */
     public function createByTemplate(string $name, string $templateId, array $simpleFormFields, bool $strictCheck = false)
     {

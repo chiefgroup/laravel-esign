@@ -2,6 +2,7 @@
 
 namespace QF\LaravelEsign\Kernel;
 
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Pimple\Container;
@@ -9,6 +10,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LogLevel;
 use QF\LaravelEsign\Auth\AccessToken;
+use QF\LaravelEsign\Kernel\Exceptions\BadResponseException;
 use QF\LaravelEsign\Kernel\Traits\HasHttpRequests;
 use QF\LaravelEsign\Kernel\Traits\ResponseCastable;
 
@@ -44,6 +46,15 @@ class BaseClient
         $this->accessToken = $accessToken ?? $this->app['access_token'];
     }
 
+    /**
+     * @param string $url
+     * @param string $method
+     * @param array $options
+     * @param $returnRaw
+     * @return array|object|ResponseInterface|string
+     * @throws GuzzleException
+     * @throws BadResponseException
+     */
     public function request(string $url, string $method = 'GET', array $options = [], $returnRaw = false)
     {
         if (empty($this->middlewares)) {
@@ -56,11 +67,25 @@ class BaseClient
     }
 
 
+    /**
+     * @param string $url
+     * @param array $query
+     * @return array|object|ResponseInterface|string
+     * @throws BadResponseException
+     * @throws GuzzleException
+     */
     public function httpGet(string $url, array $query = [])
     {
         return $this->request($url, 'GET', ['query' => $query]);
     }
 
+    /**
+     * @param string $url
+     * @param array $data
+     * @return array|object|ResponseInterface|string
+     * @throws BadResponseException
+     * @throws GuzzleException
+     */
     public function httpPost(string $url, array $data = [])
     {
         return $this->request($url, 'POST', ['form_params' => $data]);
@@ -70,8 +95,9 @@ class BaseClient
      * @param string $url
      * @param array $data
      * @param array $query
-     * @return \Psr\Http\Message\ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return ResponseInterface
+     * @throws BadResponseException
+     * @throws GuzzleException
      */
     public function httpPostJson(string $url, array $data = [], array $query = [])
     {

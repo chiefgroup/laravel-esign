@@ -3,6 +3,7 @@
 namespace QF\LaravelEsign\Kernel\Traits;
 
 use Psr\Http\Message\ResponseInterface;
+use QF\LaravelEsign\Kernel\Exceptions\BadResponseException;
 use QF\LaravelEsign\Kernel\Http\Response;
 use QF\LaravelEsign\Kernel\Support\Collection;
 
@@ -13,11 +14,11 @@ use QF\LaravelEsign\Kernel\Support\Collection;
 trait ResponseCastable
 {
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param string|null                         $type
+     * @param ResponseInterface $response
+     * @param string|null $type
      *
-     * @return array|object|\Psr\Http\Message\ResponseInterface|string
-     *
+     * @return array|object|ResponseInterface|string
+     * @throws BadResponseException
      */
     protected function castResponseToType(ResponseInterface $response, $type = null)
     {

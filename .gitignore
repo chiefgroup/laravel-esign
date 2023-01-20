@@ -4,4 +4,4 @@ composer.lock
 /vendor/
 /tests/fileSign.php
 /tests/templateSign.php
-/tests/testV3.php.php
+/tests/testV3.php

@@ -4,6 +4,7 @@ namespace QF\LaravelEsign\Kernel\Http;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Psr\Http\Message\ResponseInterface;
+use QF\LaravelEsign\Kernel\Exceptions\BadResponseException;
 use QF\LaravelEsign\Kernel\Support\Collection;
 
 /**
@@ -26,7 +27,7 @@ class Response extends GuzzleResponse
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
      *
-     * @return \EasyWeChat\Kernel\Http\Response
+     * @return Response
      */
     public static function buildFromPsrResponse(ResponseInterface $response)
     {
@@ -43,6 +44,7 @@ class Response extends GuzzleResponse
      * Build to json.
      *
      * @return string
+     * @throws BadResponseException
      */
     public function toJson()
     {
@@ -53,12 +55,21 @@ class Response extends GuzzleResponse
      * Build to array.
      *
      * @return array
+     * @throws BadResponseException
      */
-    public function toArray()
+    public function toArray(): array
     {
         $content = $this->removeControlCharacters($this->getBodyContents());
 
+        if($content == '') {
+            throw new BadResponseException('Response body is empty.');
+        }
+
         $array = json_decode($content, true, 512, JSON_BIGINT_AS_STRING);
+
+        if ($array['code'] !== 0) {
+            throw new BadResponseException($array['code'] . $array['message']);
+        }
 
         if (JSON_ERROR_NONE === json_last_error()) {
             return (array) $array;
@@ -70,7 +81,8 @@ class Response extends GuzzleResponse
     /**
      * Get collection data.
      *
-     * @return \EasyWeChat\Kernel\Support\Collection
+     * @return Collection
+     * @throws BadResponseException
      */
     public function toCollection()
     {
@@ -79,6 +91,7 @@ class Response extends GuzzleResponse
 
     /**
      * @return object
+     * @throws BadResponseException
      */
     public function toObject()
     {

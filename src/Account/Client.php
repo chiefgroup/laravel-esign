@@ -4,9 +4,21 @@ namespace QF\LaravelEsign\Account;
 
 use QF\LaravelEsign\ConstMapping;
 use QF\LaravelEsign\Kernel\BaseClient;
+use QF\LaravelEsign\Kernel\Exceptions\BadResponseException;
 
 class Client extends BaseClient
 {
+    /**
+     * @param string $thirdPartyUserId
+     * @param string|null $mobile
+     * @param string|null $name
+     * @param string|null $idNumber
+     * @param string|null $email
+     * @param string $idType
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws BadResponseException
+     */
     public function createPersonalAccount(
         string $thirdPartyUserId,
         string $mobile = null,
@@ -25,6 +37,12 @@ class Client extends BaseClient
         ]);
     }
 
+    /**
+     * @param $thirdId
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws BadResponseException
+     */
     public function queryPersonalAccountByThirdId($thirdId)
     {
         return $this->httpGet('/v1/accounts/getByThirdId', [
@@ -32,11 +50,28 @@ class Client extends BaseClient
         ]);
     }
 
+    /**
+     * @param $accountId
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function queryPersonalAccountByAccountId($accountId)
     {
         return $this->httpGet("/v1/accounts/{$accountId}");
     }
 
+    /**
+     * @param string $thirdPartyUserId
+     * @param $name
+     * @param $idNumber
+     * @param $idType
+     * @param $mobile
+     * @param $email
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function updatePersonalAccountByThirdId(
         string $thirdPartyUserId,
         $name = null,
@@ -56,6 +91,17 @@ class Client extends BaseClient
         return $this->httpPostJson('/v1/accounts/updateByThirdId', $params, ['thirdPartyUserId' => $thirdPartyUserId]);
     }
 
+    /**
+     * @param string $accountId
+     * @param $name
+     * @param $idNumber
+     * @param $idType
+     * @param $mobile
+     * @param $email
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function updatePersonalAccountByAccountId(
         string $accountId,
         $name = null,
@@ -74,6 +120,12 @@ class Client extends BaseClient
         return $this->request("/v1/accounts/{$accountId}", 'put', ['json' => $params]);
     }
 
+    /**
+     * @param $thirdPartyUserId
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function deletePersonalAccountByThirdId($thirdPartyUserId)
     {
         return $this->request(
@@ -83,6 +135,12 @@ class Client extends BaseClient
         );
     }
 
+    /**
+     * @param $accountId
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function deletePersonalAccountByAccountId($accountId)
     {
         return $this->request("/v1/accounts/{$accountId}", 'delete');
@@ -101,6 +159,7 @@ class Client extends BaseClient
      * @param string|null $orgLegalIdNumber
      * @param string|null $orgLegalName
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws BadResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createOrganizeAccount(
@@ -125,16 +184,37 @@ class Client extends BaseClient
         return $this->httpPostJson('/v1/organizations/createByThirdPartyUserId', $params);
     }
 
+    /**
+     * @param string $thirdPartyUserId
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function queryOrganizeAccountByThirdId(string $thirdPartyUserId)
     {
         return $this->httpget('/v1/organizations/getByThirdId', ['thirdPartyUserId' => $thirdPartyUserId]);
     }
 
+    /**
+     * @param string $orgId
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function queryOrganizeAccountByOrgId(string $orgId)
     {
         return $this->httpget("/v1/organizations/{$orgId}");
     }
 
+    /**
+     * @param string $thirdPartyUserId
+     * @param string|null $name
+     * @param string|null $idNumber
+     * @param string|null $idType
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function updateOrganizeAccountByThirdId(
         string $thirdPartyUserId,
         string $name = null,
@@ -154,6 +234,17 @@ class Client extends BaseClient
         );
     }
 
+    /**
+     * @param string $orgId
+     * @param $name
+     * @param $idNumber
+     * @param $orgLegalIdNumber
+     * @param $orgLegalName
+     * @param $idType
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function updateOrganizeAccountById(string $orgId, $name = null, $idNumber = null, $orgLegalIdNumber = null, $orgLegalName = null, $idType = null)
     {
         $params = [
@@ -167,6 +258,12 @@ class Client extends BaseClient
         return $this->httpPostJson("/v1/organizations/{$orgId}", $params);
     }
 
+    /**
+     * @param string $thirdPartyUserId
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function deleteOrganizeAccountByThirdId(string $thirdPartyUserId)
     {
         return $this->request(
@@ -176,6 +273,12 @@ class Client extends BaseClient
         );
     }
 
+    /**
+     * @param string $orgId
+     * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function deleteOrganizeAccountByOrgId(string $orgId)
     {
         return $this->request("/v1/organizations/{$orgId}", 'delete');
@@ -187,6 +290,7 @@ class Client extends BaseClient
      * @param string $accountId
      * @param $deadline
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws BadResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function setSignAuth(string $accountId, $deadline = null)
@@ -203,6 +307,7 @@ class Client extends BaseClient
      *
      * @param string $accountId
      * @return array|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws BadResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function deleteSignAuth(string $accountId)

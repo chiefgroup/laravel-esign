@@ -4,7 +4,10 @@ namespace QF\LaravelEsign\Auth;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 use QF\LaravelEsign\Application;
+use QF\LaravelEsign\Kernel\Exceptions\BadResponseException;
+use QF\LaravelEsign\Kernel\Exceptions\HttpException;
 use QF\LaravelEsign\Kernel\Exceptions\RuntimeException;
 use QF\LaravelEsign\Kernel\Traits\HasHttpRequests;
 use QF\LaravelEsign\Kernel\Traits\InteractsWithCache;
@@ -59,8 +62,8 @@ class AccessToken
      * @param string $token
      * @param int $lifetime
      * @return $this
+     * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \QF\LaravelEsign\Kernel\Exceptions\InvalidArgumentException
      */
     public function setToken(string $token, int $lifetime = 7200)
@@ -79,9 +82,11 @@ class AccessToken
 
     /**
      * @param bool $refresh
-     * @return mixed
+     * @return array
+     * @throws BadResponseException
+     * @throws HttpException
+     * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \QF\LaravelEsign\Kernel\Exceptions\InvalidArgumentException
      */
     public function getToken(bool $refresh = false): array
@@ -103,6 +108,14 @@ class AccessToken
         return $token;
     }
 
+    /**
+     * @return $this
+     * @throws BadResponseException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws \QF\LaravelEsign\Kernel\Exceptions\InvalidArgumentException
+     */
     public function refresh()
     {
         $this->getToken(true);
@@ -110,10 +123,22 @@ class AccessToken
         return $this;
     }
 
+    /**
+     * @param array $credentials
+     * @param $toArray
+     * @return array|mixed|object|ResponseInterface|string
+     * @throws HttpException
+     * @throws BadResponseException
+     */
     public function requestToken(array $credentials, $toArray = false)
     {
         $response = $this->sendRequest($credentials);
         $result = json_decode($response->getBody()->getContents(), true);
+
+        if (empty($result['data']) || empty($result['data'][$this->tokenKey])){
+            throw new HttpException('Failed to get access_token:' . json_encode($result, JSON_UNESCAPED_UNICODE));
+        }
+
         $formatted = $this->castResponseToType($response, $this->app['config']->get('response_type'));
 
         return $toArray ? $result['data'] : $formatted;
@@ -123,6 +148,11 @@ class AccessToken
      * @param RequestInterface $request
      * @param array $requestOptions
      * @return RequestInterface
+     * @throws BadResponseException
+     * @throws HttpException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws \QF\LaravelEsign\Kernel\Exceptions\InvalidArgumentException
      */
     public function applyToRequest(RequestInterface $request, array $requestOptions = []): RequestInterface
     {

@@ -2,10 +2,19 @@
 
 namespace QF\LaravelEsign\Template;
 
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
 use QF\LaravelEsign\Kernel\BaseClient;
+use QF\LaravelEsign\Kernel\Exceptions\BadResponseException;
 
 class Client extends BaseClient
 {
+    /**
+     * @param string $templateId
+     * @return array|object|ResponseInterface|string
+     * @throws GuzzleException
+     * @throws BadResponseException
+     */
     public function docTemplates(string $templateId)
     {
         return $this->httpGet("/v1/docTemplates/{$templateId}");
