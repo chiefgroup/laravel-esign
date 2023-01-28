@@ -36,6 +36,10 @@ $config = [
 $app = new Application($config);
 $template = $app->template;
 $template->docTemplates($templateId);
+
+//直接调用
+$thirdPartyUserId = 'id';
+$app->httpGet("/v1/organizations/getByThirdId",  ['thirdPartyUserId' => $thirdPartyUserId]);
 ```
 
 ## Laravel 中使用

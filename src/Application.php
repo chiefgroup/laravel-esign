@@ -24,6 +24,7 @@ use Pimple\Container;
  * @property \QF\LaravelEsign\Auth\AccessToken $access_token
  *
  * @property \QF\LaravelEsign\Account\Client $account
+ * @property \QF\LaravelEsign\Base\Client $base
  * @property \QF\LaravelEsign\File\Client $file
  * @property \QF\LaravelEsign\Template\Client $template
  * @property \QF\LaravelEsign\SignFlow\Client $signFlow
@@ -36,17 +37,18 @@ class Application extends Container
     /**
      * @var array
      */
-    protected $defaultConfig = [];
+    protected array $defaultConfig = [];
 
     /**
      * @var array
      */
-    protected $userConfig = [];
+    protected array $userConfig = [];
 
     /**
      * @var string[]
      */
     protected array $providers = [
+        Base\ServiceProvider::class,
         Auth\ServiceProvider::class,
         Account\ServiceProvider::class,
         File\ServiceProvider::class,
@@ -116,6 +118,13 @@ class Application extends Container
         $this->offsetSet($name, $value);
     }
 
+    public function __call($method, $args)
+    {
+        if (is_callable([$this['base'], $method])) {
+            return call_user_func_array([$this['base'], $method], $args);
+        }
+    }
+
     /**
      * @param array $providers
      * @return void
@@ -126,4 +135,5 @@ class Application extends Container
             $this->register(new $provider());
         }
     }
+
 }
