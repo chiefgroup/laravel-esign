@@ -26,4 +26,9 @@ class Client extends BaseClient
 
         return $this->httpGet("/v1/signflows/{$flowId}/executeUrl", $query);
     }
+
+    public function downloadDocument($flowId)
+    {
+        return $this->httpPostJson("/v1/signflows/{$flowId}/documents");
+    }
 }

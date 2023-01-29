@@ -57,7 +57,7 @@ $ php artisan vendor:publish --provider="QF\LaravelEsign\ServiceProvider"
 $eSign = app('esign');
 $eSign->account->createPersonalAccount('thirdId', 'name', 'idNumber');
 
-Esign::account->createPersonalAccount('thirdId', 'name', 'idNumber');
+\Esign::account()->createPersonalAccount('thirdId', 'name', 'idNumber');
 ```
 
 # 版本对比

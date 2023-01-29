@@ -70,6 +70,15 @@ class Client extends BaseClient
         ]);
     }
 
+    /**
+     * 上传文件
+     * @link https://open.esign.cn/doc/opendoc/saas_api/gcu36n#ii1GX
+     *
+     * @param string $uploadUrl
+     * @param string $fileContent
+     * @param array $headers ['Content-MD5:' . $md5, 'Content-Type:' . 'application/pdf']
+     * @return int|mixed
+     */
     public function sendHttpPut(string $uploadUrl, string $fileContent, array $headers)
     {
         $curl_handle = curl_init();
