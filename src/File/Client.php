@@ -32,6 +32,22 @@ class Client extends BaseClient
     }
 
     /**
+     * 上传文件
+     * @link https://open.esign.cn/doc/opendoc/saas_api/gcu36n#ii1GX
+     *
+     * @param string $uploadUrl
+     * @param string $fileContent
+     * @param array $headers ['Content-MD5' => 'string', 'Content-Type' => 'application/pdf']
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function upload(string $uploadUrl, string $fileContent, array $headers)
+    {
+        $client = new \GuzzleHttp\Client();
+        return json_decode($client->request('put', $uploadUrl, ['body' => $fileContent, 'headers' => $headers])->getBody()->getContents(), true);
+    }
+
+    /**
      * @param string $fileId
      * @return array|object|\Psr\Http\Message\ResponseInterface|string
      * @throws BadResponseException
@@ -69,43 +85,7 @@ class Client extends BaseClient
             'strictCheck' => $strictCheck
         ]);
     }
-
-    /**
-     * 上传文件
-     * @link https://open.esign.cn/doc/opendoc/saas_api/gcu36n#ii1GX
-     *
-     * @param string $uploadUrl
-     * @param string $fileContent
-     * @param array $headers ['Content-MD5:' . $md5, 'Content-Type:' . 'application/pdf']
-     * @return int|mixed
-     */
-    public function sendHttpPut(string $uploadUrl, string $fileContent, array $headers)
-    {
-        $curl_handle = curl_init();
-        curl_setopt($curl_handle, CURLOPT_URL, $uploadUrl);
-        curl_setopt($curl_handle, CURLOPT_FILETIME, true);
-        curl_setopt($curl_handle, CURLOPT_FRESH_CONNECT, false);
-        curl_setopt($curl_handle, CURLOPT_HEADER, true); // 输出HTTP头 true
-        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl_handle, CURLOPT_TIMEOUT, 5184000);
-        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 120);
-        curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl_handle, CURLOPT_SSL_VERIFYHOST, false);
-
-        curl_setopt($curl_handle, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, 'PUT');
-
-        curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $fileContent);
-        $result = curl_exec($curl_handle);
-        $status = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
-
-        if ($result === false) {
-            $status = curl_errno($curl_handle);
-        }
-        curl_close($curl_handle);
-        return $status;
-    }
-
+    
     public function getFileBase64Md5(string $filePath)
     {
         //获取文件MD5的128位二进制数组
