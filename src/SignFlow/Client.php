@@ -29,6 +29,6 @@ class Client extends BaseClient
 
     public function downloadDocument($flowId)
     {
-        return $this->httpPostJson("/v1/signflows/{$flowId}/documents");
+        return $this->httpGet("/v1/signflows/{$flowId}/documents");
     }
 }
