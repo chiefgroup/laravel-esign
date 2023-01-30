@@ -31,4 +31,14 @@ class Client extends BaseClient
     {
         return $this->httpGet("/v1/signflows/{$flowId}/documents");
     }
+
+    public function revoke($flowId, $operatorId = null)
+    {
+        return $this->httpPostJson("/v1/signflows/{$flowId}/revoke", ['operatorId' => $operatorId]);
+    }
+
+    public function archiveSign($flowId)
+    {
+        return $this->request("/v1/signflows/{$flowId}/archive", 'put');
+    }
 }
