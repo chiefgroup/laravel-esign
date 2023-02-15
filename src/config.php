@@ -35,7 +35,9 @@ return [
         ]
     ],
     'http' => [
+        'base_uri' => env('ESIGN_HTTP_BASE_URI', 'https://smlopenapi.esign.cn'),
         'max_retries' => 3,
-        'retry_delay' => 300
+        'retry_delay' => 300,
+        'timeout' => 30
     ]
 ];
