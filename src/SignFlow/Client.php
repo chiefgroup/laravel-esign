@@ -34,7 +34,7 @@ class Client extends BaseClient
 
     public function revoke($flowId, $operatorId = null)
     {
-        return $this->httpPostJson("/v1/signflows/{$flowId}/revoke", ['operatorId' => $operatorId]);
+        return $this->request("/v1/signflows/{$flowId}/revoke", 'put', ['json' => ['operatorId' => $operatorId]]);
     }
 
     public function archiveSign($flowId)
